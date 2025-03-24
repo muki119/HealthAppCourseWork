@@ -5,9 +5,7 @@ function App() {
 
   return (
     <>
-      <h1>
-        Hello World ar
-      </h1>
+      <h1>Health App home</h1>
     </>
   )
 }
