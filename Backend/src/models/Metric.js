@@ -24,6 +24,4 @@ const Metric = sequelize.define('metric', {
         allowNull: false,
     }
 });
-
-Metric.sync({force:false});
 module.exports = Metric;

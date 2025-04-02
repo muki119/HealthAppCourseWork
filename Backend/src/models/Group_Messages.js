@@ -28,5 +28,4 @@ const GroupMessage = sequelize.define('group_messages', {
         defaultValue: DataTypes.NOW,
     }
 });
-GroupMessage.sync({force:false});
 module.exports = GroupMessage;

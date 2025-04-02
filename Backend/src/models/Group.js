@@ -1,5 +1,7 @@
 const sequelize = require('../config/Database.js');
 const { DataTypes } = require('sequelize');
+const GroupParticipant = require('./Group_Participants.js');
+// const User = require('./User.js');
 
 const Group = sequelize.define('group', {
     id:{
@@ -11,7 +13,7 @@ const Group = sequelize.define('group', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    creator:{
+    creator_id:{
         type: DataTypes.UUID,
         allowNull: false,
     },
@@ -20,6 +22,4 @@ const Group = sequelize.define('group', {
         defaultValue: DataTypes.NOW,
     }
 });
-
-Group.sync({force:false});
 module.exports = Group;

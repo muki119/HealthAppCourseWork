@@ -17,6 +17,4 @@ const GroupParticipant = sequelize.define('group_participant', {
         defaultValue: DataTypes.NOW,
     },
 });
-GroupParticipant.sync({force:false});
-
 module.exports = GroupParticipant;

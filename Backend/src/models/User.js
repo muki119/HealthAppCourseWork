@@ -1,19 +1,18 @@
 const sequelize = require('../config/Database.js');
 const { DataTypes } = require('sequelize');
-
 const User = sequelize.define('user', {
     id:{
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
-    forname:{
+    forename:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     surname:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     email:{
         type: DataTypes.STRING,
@@ -27,7 +26,11 @@ const User = sequelize.define('user', {
     },
     password:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
+    },
+    salt:{
+        type: DataTypes.STRING,
+        allowNull:false
     },
     date_created:{
         type: DataTypes.DATE,
@@ -35,10 +38,8 @@ const User = sequelize.define('user', {
     },
     last_online:{
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        defaultValue: null,
     },
     
 })
-User.sync({force:false});
-
 module.exports = User;
