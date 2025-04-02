@@ -6,17 +6,13 @@ const LoginController = async (req,res)=>{
     try {
         const user = await loginService({username,password})
         if (!user){
-            res.status(400).end()
+            res.status(400).json({"error":'Invalid Username/Password.'})
         }
         req.session.user = user
-        res.send(user)
+        res.json(user)
     } catch (error) {
-        res.status(500).end()
+        res.status(500).json({ error: 'Internal server error' });
     }
-    // pass username to service function and get resonsone
-    //if not null create session and add user details to session. 
-
-    //session should contain basic user data, 
 
 };
 module.exports = LoginController;

@@ -23,7 +23,7 @@ async function registerService(userData) {
             });
             return true
         }catch(e){
-            return false
+            throw new e
         }
     }
     return false
