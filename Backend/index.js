@@ -13,15 +13,16 @@ require("./src/Services/Login")
 
 app.use(BodyParser.json());
 app.use(session({
+    name:'sid',
     path: '/', 
     httpOnly: true, 
     secure: false, 
-    maxAge: null,
     saveUninitialized:false,
     resave:false,
     secret:process.env.COOKIE_SECRET,
     cookie:{
         priority:'high',
+        maxAge:(14*24*60*60*1000),
     }
 }))
 app.use("/api/v1",authenticationRoutes);
