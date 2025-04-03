@@ -1,5 +1,6 @@
 const sequelize = require('../config/Database.js');
 const { DataTypes } = require('sequelize');
+
 const User = sequelize.define('user', {
     id:{
         type: DataTypes.UUID,

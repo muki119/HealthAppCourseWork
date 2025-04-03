@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
-const {User} = require('../models');
+const {User} = require('../../models');
 const crypto = require('crypto')
-const {createHashedPassword} = require('../helpers')
+const {createHashedPassword} = require('../../helpers')
 
 //Where Business logic is written
 //This will interact with the database

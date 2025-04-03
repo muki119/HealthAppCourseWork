@@ -1,4 +1,4 @@
-const { registerService } = require("../Services");
+const { registerService } = require("../../Services");
 
 //Where the and outputs are handled
 const RegisterController = async (req,res)=>{

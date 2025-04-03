@@ -1,5 +1,5 @@
-const {User} = require('../models');
-const {createHashedPassword} = require('../helpers');
+const {User} = require('../../models');
+const {createHashedPassword} = require('../../helpers');
 const { DataTypes } = require('sequelize');
 //Where Business logic is written
 //This will interact with the database
