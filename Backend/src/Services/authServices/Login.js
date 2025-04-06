@@ -1,6 +1,6 @@
 const {User} = require('../../models');
 const {createHashedPassword} = require('../../helpers');
-const { DataTypes } = require('sequelize');
+const database = require('../../config/Database')
 //Where Business logic is written
 //This will interact with the database
 async function loginService(requestData){
@@ -15,10 +15,14 @@ async function loginService(requestData){
         if (! await compareHash(password,foundUserSalt,foundUserPassword)){
             return null
         };
-        const {id,forename,surname,email,date_created} = user;
+        
+        const {id,forename,surname,email,date_created} = user; //edit to remove password
         const responseData = {id,forename,surname,email,username,date_created};
-        user.last_online = Date.now(); // update last online to the current time.
-        user.save();
+        const updateLastOnline = await database.transaction((t)=>{
+            user.last_online = Date.now(); // update last online to the current time.
+            user.save({transaction:t});
+        })
+        updateLastOnline;
         return responseData;
     }catch(e){
         throw new e // should be logged

@@ -6,14 +6,12 @@ const RegisterController = async (req,res)=>{
         const {forename,surname,username,email,password} = req.body;
         const userData = {forename,surname,username,email,password}
         const successfulRegister = await registerService(userData);
-        console.log(successfulRegister)
         if (!successfulRegister){
-            res.status(400).json({'error':'Email or Username Already Exists.'})
-            return
+            return res.status(400).json({'error':'Email or Username Already Exists.'})
         }
         res.status(201).json({'message':'Account Successfully Created'})
-    }catch(e){
-        res.status(500).json({"error":'Internal Server Error'})
+    }catch(error){
+        next(error)
     }
 };
 module.exports = RegisterController;
