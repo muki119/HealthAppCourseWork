@@ -1,10 +1,19 @@
 const groupRoutes = require('express').Router()
+const {checkUserParticipationMiddleware} = require('../middleware')
+const {createGroupController,
+    getUserGroupsController,
+    getGroupMessagesController,
+    joinGroupController,
+    leaveGroupController
+} = require('../Controllers')
 
 
-groupRoutes.get('/groups',) // gets all user groups.
-groupRoutes.get('/groups/:groupid/messages') // gets messages of a certain group the user is in.
-groupRoutes.post('/groups') // create a group
-groupRoutes.post('/groups/:groupId/join') // join a group
+
+groupRoutes.get('/groups',getUserGroupsController); // gets all user groups.
+groupRoutes.get('/groups/:groupid/messages',checkUserParticipationMiddleware,getGroupMessagesController); // gets messages of a certain group the user is in.
+groupRoutes.post('/groups',createGroupController); // create a group
+groupRoutes.post('/groups/:groupid/join',joinGroupController); // join a group
+groupRoutes.delete('/groups/:groupid/leave',checkUserParticipationMiddleware,leaveGroupController); // leave a group
 
 
 

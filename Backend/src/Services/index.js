@@ -1,4 +1,5 @@
 const loginService = require('./authServices/Login')
+const logoutService = require('./authServices/Logout')
 const registerService = require('./authServices/Register')
 const createGroupService = require('./groupServices/createGroup')
 const getUserGroupsService = require('./groupServices/getUserGroups')
@@ -13,5 +14,6 @@ module.exports = {
     getUserGroupsService,
     getGroupMessagesService,
     joinGroupService,
-    leaveGroupService
+    leaveGroupService,
+    logoutService
 }

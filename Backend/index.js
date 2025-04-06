@@ -5,10 +5,13 @@ const BodyParser = require('body-parser');
 const session = require('express-session')
 const Database = require('./src/config/Database');
 const models = require('./src/models');
-
+const {errorHandlerMiddleware} = require('./src/middleware');
 const authenticationRoutes = require('./src/routes/authenticationRoutes');
+const groupRoutes = require('./src/routes/groupRoutes');
 const port = process.env.PORT;
 
+
+// incorpoatation of rate limiting is needed.
 app.use(BodyParser.json());
 app.use(session({
     name:'sid',
@@ -24,8 +27,8 @@ app.use(session({
     }
 }))
 
-app.use("/api/v1",authenticationRoutes);
-
+app.use("/api/v1",authenticationRoutes,groupRoutes);
+app.use(errorHandlerMiddleware);
 app.listen(port, (err) => {
     if (err){
         console.log("An error has occurred");

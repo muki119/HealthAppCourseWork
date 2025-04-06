@@ -1,4 +1,5 @@
 const LoginController = require('./authControllers/Login');
+const logoutController = require('./authControllers/Logout')
 const RegisterController = require('./authControllers/Register');
 const createGroupController = require('./groupControllers/createGroup');
 const getUserGroupsController = require('./groupControllers/getUserGroups');
@@ -12,6 +13,7 @@ module.exports = {
     getUserGroupsController,
     getGroupMessagesController,
     joinGroupController,
-    leaveGroupController
+    leaveGroupController,
+    logoutController
 
 };
