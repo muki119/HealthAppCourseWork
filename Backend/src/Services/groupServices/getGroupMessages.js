@@ -10,7 +10,7 @@ const getGroupMessagesService = async (groupId,dateFrom = new Date())=>{
                         [Op.lte]:dateFrom
                     }
                 },
-                limit: 10,
+                limit: 85,
                 order:[['date_sent','DESC']],
                 attributes:['id','content','date_sent','goal_id']
             })

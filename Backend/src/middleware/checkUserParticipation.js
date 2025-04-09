@@ -10,7 +10,8 @@ const checkUserParticipationMiddleware = async (req,res,next) => {
         next();
     } catch (error) {
         console.error('Error in checkUserParticipationMiddleware:', error);
-        res.status(500).json({'error':'Internal server error'})
+        next(error)
+
     }
 }
 

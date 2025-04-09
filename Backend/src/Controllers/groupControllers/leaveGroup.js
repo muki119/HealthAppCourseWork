@@ -1,5 +1,7 @@
-const {leaveGroupService} = require('../../Services');
-const leaveGroupController = async (req, res) => {
+const {groupServices} = require('../../Services')
+const {leaveGroupService} = groupServices
+
+const leaveGroupController = async (req, res,next) => {
     const {groupid} = req.params;
     const userId = req.session.user.id;
     try {

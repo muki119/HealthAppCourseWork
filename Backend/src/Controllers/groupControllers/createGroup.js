@@ -1,5 +1,7 @@
-const {createGroupService} = require('../../Services')
-const createGroupController = async (req, res) => {
+const {groupServices} = require('../../Services')
+const {createGroupService} = groupServices
+
+const createGroupController = async (req, res,next) => {
     const userId = req.session.user.id;
     const {groupName} = req.body;
 

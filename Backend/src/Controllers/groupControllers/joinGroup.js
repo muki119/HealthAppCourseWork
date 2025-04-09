@@ -1,6 +1,8 @@
 const {checkUserParticipationHelper} = require('../../helpers/')
-const {joinGroupService} = require('../../Services');
-const joinGroupController = async (req, res) => {
+const {groupServices} = require('../../Services')
+const {joinGroupService} = groupServices
+
+const joinGroupController = async (req, res,next) => {
     const {groupId} = req.params;
     const userId = req.session.user.id;
     try {

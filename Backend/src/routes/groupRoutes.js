@@ -1,11 +1,12 @@
 const groupRoutes = require('express').Router()
 const {checkUserParticipationMiddleware} = require('../middleware')
-const {createGroupController,
-    getUserGroupsController,
+const {groupControllers} = require('../Controllers')
+const {getUserGroupsController,
+    createGroupController,
     getGroupMessagesController,
     joinGroupController,
     leaveGroupController
-} = require('../Controllers')
+} = groupControllers;
 
 
 

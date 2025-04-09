@@ -1,5 +1,7 @@
-const {getGroupMessagesService} = require('../../Services');
-const getGroupMessagesController = async (req, res) => {
+const {groupServices} = require('../../Services')
+const {getGroupMessagesService} = groupServices; 
+
+const getGroupMessagesController = async (req, res,next) => {
     const {groupid} = req.params;
     const {datefrom} = req.query
     try{

@@ -1,5 +1,7 @@
-const {getUserGroupsService} = require('../../Services');
-const getUserGroupsController = async (req, res) => {
+const {groupServices} = require('../../Services')
+const {getUserGroupsService} = groupServices
+
+const getUserGroupsController = async (req, res,next) => {
     try {
         const userId = req.session.user.id;
         const userGroups = await getUserGroupsService(userId)
