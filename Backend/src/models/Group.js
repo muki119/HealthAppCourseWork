@@ -14,10 +14,15 @@ const Group = sequelize.define('group', {
     creator_id:{
         type: DataTypes.UUID,
         allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id'
+        }
     },
     date_created:{
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+        allowNull: false,
     }
 });
 module.exports = Group;

@@ -18,12 +18,11 @@ const User = sequelize.define('user', {
     email:{
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+
     },
     username:{
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
     },
     password:{
         type: DataTypes.STRING,
@@ -40,7 +39,20 @@ const User = sequelize.define('user', {
     last_online:{
         type: DataTypes.DATE,
         defaultValue: null,
+        allowNull: true
     },
     
+},{
+    indexes: [
+        {
+            fields: ['email'],
+            unique: true
+        },
+        {
+            fields: ['username'],
+            unique: true
+        }
+    ],
+    createdAt: false,
 })
 module.exports = User;
