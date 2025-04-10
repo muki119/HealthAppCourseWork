@@ -1,4 +1,5 @@
-const {loginService} = require('../../Services')
+const {authServices} = require('../../Services')
+const {loginService} = authServices;
 //Where the and outputs are handled
 const LoginController = async (req,res,next)=>{
     const {username, password} = req.body

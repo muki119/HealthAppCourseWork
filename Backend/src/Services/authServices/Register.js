@@ -27,7 +27,7 @@ async function registerService(userData) {
             })
             return createAccount
         }catch(e){
-            throw new e
+            throw e
         }
     }
     return false

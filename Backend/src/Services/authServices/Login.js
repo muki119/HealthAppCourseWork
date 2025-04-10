@@ -18,14 +18,15 @@ async function loginService(requestData){
         
         const {id,forename,surname,email,date_created} = user; //edit to remove password
         const responseData = {id,forename,surname,email,username,date_created};
-        const updateLastOnline = await database.transaction((t)=>{
-            user.last_online = Date.now(); // update last online to the current time.
-            user.save({transaction:t});
-        })
-        updateLastOnline;
+        // const updateLastOnline = await database.transaction((t)=>{
+
+        // })
+        // updateLastOnline;
+        user.last_online = Date.now(); // update last online to the current time.
+        user.save();
         return responseData;
     }catch(e){
-        throw new e // should be logged
+        throw e // should be logged
     }
 
 }
