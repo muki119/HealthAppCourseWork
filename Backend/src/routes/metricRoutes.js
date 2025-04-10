@@ -1,5 +1,6 @@
 const metricRoutes = require('express').Router()
 const {metricControllers} = require('../Controllers')
+const {checkUserLoggedIn} = require('../middleware')
 const {
     createMetricController,
     deleteMetricController,
@@ -7,6 +8,8 @@ const {
     updateMetricController
 } = metricControllers;
 
+
+metricRoutes.use(checkUserLoggedIn) // check if user is logged in before accessing any routes
 // get metrics (get all metrics from a certain date)  -- 
 metricRoutes.get('/metrics', getUserMetricController)
 // create metric
