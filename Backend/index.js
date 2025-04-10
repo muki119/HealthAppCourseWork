@@ -6,8 +6,7 @@ const session = require('express-session')
 const Database = require('./src/config/Database');
 const models = require('./src/models');
 const {errorHandlerMiddleware} = require('./src/middleware');
-const authenticationRoutes = require('./src/routes/authenticationRoutes');
-const groupRoutes = require('./src/routes/groupRoutes');
+const {authenticationRoutes, groupRoutes,metricRoutes} = require('./src/routes');
 const port = process.env.PORT;
 
 
@@ -27,7 +26,7 @@ app.use(session({
     }
 }))
 
-app.use("/api/v1",authenticationRoutes,groupRoutes);
+app.use("/api/v1",authenticationRoutes,groupRoutes,metricRoutes);
 app.use(errorHandlerMiddleware);
 app.listen(port, (err) => {
     if (err){
