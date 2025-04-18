@@ -40,12 +40,10 @@ const GroupMessage = sequelize.define('group_messages', {
 {
     indexes: [
         {
-            fields: ['group_id']
-        },{
-            fields:[{
-                name:'date_sent',
-                order:'DESC'
-            }]
+            fields: ['group_id',{
+                name: 'date_sent',
+                order: 'DESC'
+            }],
         }
     ]
 });
