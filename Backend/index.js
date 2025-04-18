@@ -6,7 +6,7 @@ const session = require('express-session')
 const Database = require('./src/config/Database');
 const models = require('./src/models');
 const {errorHandlerMiddleware} = require('./src/middleware');
-const {authenticationRoutes, groupRoutes,metricRoutes} = require('./src/routes');
+const {authenticationRoutes, groupRoutes,metricRoutes,goalRoutes} = require('./src/routes');
 const port = process.env.PORT;
 
 

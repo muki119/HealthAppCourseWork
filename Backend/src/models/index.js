@@ -3,6 +3,7 @@ const Group = require('./Group.js');
 const GroupParticipant = require('./Group_Participants.js');
 const GroupMessage = require('./Group_Messages.js');
 const Metric = require('./Metric.js');
+const Goal = require('./Goal.js');
 const sequelize = require('../config/Database.js');
 
 // Associations
@@ -69,5 +70,6 @@ module.exports = {
     Group,
     GroupParticipant,
     GroupMessage,
-    Metric
+    Metric,
+    Goal
 }
