@@ -1,6 +1,6 @@
-const loginService = require('./Login')
-const logoutService = require('./Logout')
-const registerService = require('./Register')
+const loginService = require('./login')
+const logoutService = require('./logout')
+const registerService = require('./register')
 
 module.exports = {
     loginService,
