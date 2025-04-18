@@ -1,7 +1,7 @@
 const {Metric}  = require('../../models')
 const database = require('../../config/Database')
 
-const updateMetricService = async (metricId,newUserData ) => {
+const updateMetricService = async (metricId,newUserData) => {
     try {
         const updateMetricTransaction =  await database.transaction( async (t)=>{
             const updatedMetric = await Metric.update({
@@ -14,9 +14,14 @@ const updateMetricService = async (metricId,newUserData ) => {
                 },
                 transaction:t
             })
+            const affectedRows = updatedMetric[0]
+            if (!affectedRows) {
+                throw new Error('Metric not found');
+            }
             return updatedMetric
         })
-        return updateMetricTransaction
+
+        return updateMetricTransaction;
     } catch (error) {
         throw error
     }

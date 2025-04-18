@@ -6,5 +6,6 @@ const goalControllers = require('./goalControllers');
 module.exports = {
     metricControllers,
     authControllers,
-    groupControllers
+    groupControllers,
+    goalControllers
 };

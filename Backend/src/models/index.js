@@ -23,6 +23,15 @@ User.hasMany(Group, {
     sourceKey: 'id',
     onDelete:'SET NULL',
 });
+//user and Goal
+User.hasMany(Goal,{
+    foreignKey:'user_id',
+    sourceKey:'id'
+});
+Goal.belongsTo(User,{
+    foreignKey:'user_id',
+    targetKey:'id'
+})
 // Group and GroupParticipant
 Group.hasMany(GroupParticipant, {
     foreignKey: 'group_id',
