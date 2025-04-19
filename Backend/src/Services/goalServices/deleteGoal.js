@@ -6,7 +6,7 @@ const deleteGoalService = async (userId,goalId) => {
         const destroyGoalTransaction = await database.transaction(async (t)=>{
             await Goal.destroy({
                 where: {
-                    userId: userId,
+                    user_id: userId,
                     id: goalId
                 },
                 transaction: t
