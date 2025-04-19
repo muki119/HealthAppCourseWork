@@ -64,53 +64,76 @@ Return:The joined chat object (json)
 Type:Delete  
 Description:Leaves a group.  
 Input:The groupid of the group to be left   
-Return: Confirmation that it has been left  (statuse code 200 ) or and error (status code 500)  
+Return: Confirmation that it has been left  (status code 200 ) or and error (status code 500)  
 
+## Goal Endpoints (user must be logged in)
+
+### /goals?datebefore=
+Type:Get
+Description:Gets the users goals before a certain date.on first call it will be the 50 newest goals, on subsequent i will be after a certain date.  
+Input:Takes only the user session id cookie.   
+Return:The 50 newest Goal objects on first call , subsequent calls will be before the datebefore query.  
+### /goals
+Type:Post  
+Description:Creates a new goal.  
+Input:goalData  
+Return:The new goal (status 201).  
+### /goals/:goalId
+Type:Delete  
+Description:Deletes a users goal associated with the goalId   
+Input:The goalId to be deleted.    
+Return:A status (201) if successfully deleted or a error code if not.   
+### /goals/:goalId
+Type:Update  
+Description:Updates the users goal associated with the goalId  
+Input:Any data to be changed   
+Return:Success (status 200) or error if else.   
 
 # Models
 
 ## User 
-  user_id  uuid [primary key]  
-  forename varchar  
-  surname varchar   
-  email varchar [unique]   
-  username varchar [unique]  
-  hash_password varchar  
-  date_created datetime  
-  last_online timestamp  
+id:UUID (PRIMARY KEY)  
+forename:string  
+surname:string  
+email:string (unique)  
+username:string (unique)  
+password : string (hashed)  
+salt:string   
+date_created: date   
+last_online:date  
 
+## Group 
+id:UUID (PRIMARY KEY)   
+name:string  
+creator_id:uuid (FOREIGN KEY REFERENCES User.id)  
+date_created:date   
 
-## Group
-  group_id uuid [primary key]  
-  group_creator uuid [ref:> User.user_id]  
-  group_name varchar   
-  date_created datetime  
-
-
-## group_participants
-  user_id uuid [ref:>User.user_id]  
-  group_id uuid [ref:> Group.group_id]  
-  PRIMARY KEY (user_id,group_id)  
-
-
-## Metric
-  user_id uuid [ref:>User.user_id]  
-  metric_type varchar  
-  metric_value integer  
-  date_created datetime  
-
-
-## Goal
-  goal_id uuid [primary key]  
-  user_id uuid [ref:> User.user_id]  
-  status enum   
-  goal_title varchar  
-
+## Group_Participants
 
 ## Group_Messages
-  message_id uuid [primary key]  
-  user_id uuid [ref:> User.user_id]  
-  group_id uuid [ref:> Group.group_id]  
-  content varchar   
-  time_sent timestamp  
-  goal_id uuid [ref: > Goal.goal_id]  
+id:UUID (PRIMARY KEY)
+group_id : UUID (FOREIGN KEY REFERENCES Group.id)  
+user_id:uuid (FOREIGN KEY REFERENCES User.id)  
+content:string
+goal_id:uuid (FOREIGN KEY REFERENCES Goal.id)  
+date_sent:date
+
+# Metric 
+id:UUID (PRIMARY KEY)  
+user_id:uuid (FOREIGN KEY REFERENCES User.id)  
+metric_type:string
+metric_value:float
+time_of_day:enum values:['BREAKFAST','SECOND_BREAKFAST','BRUNCH','LUNCH','TEA','DINNER','SNACK']  
+date_created:date   
+
+
+# Goal
+id:UUID (PRIMARY KEY)   
+user_id:uuid (FOREIGN KEY REFERENCES User.id)  
+start_date:date  
+end_date:date  
+goal_name:string  
+goal_value:float  
+achieved:boolean  
+date_created:date  
+

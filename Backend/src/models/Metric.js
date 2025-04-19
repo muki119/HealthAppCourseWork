@@ -12,7 +12,7 @@ const Metric = sequelize.define('metric', {
         allowNull: false,
     },
     metric_value:{
-        type:DataTypes.INTEGER,
+        type:DataTypes.FLOAT,
         allowNull: false,
     },
     time_of_day:{
