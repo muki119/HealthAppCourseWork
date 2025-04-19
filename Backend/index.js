@@ -26,7 +26,7 @@ app.use(session({
     }
 }))
 
-app.use("/api/v1",authenticationRoutes,groupRoutes,metricRoutes);
+app.use("/api/v1",authenticationRoutes,groupRoutes,metricRoutes,goalRoutes);
 app.use(errorHandlerMiddleware);
 app.listen(port, (err) => {
     if (err){
