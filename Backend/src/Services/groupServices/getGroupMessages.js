@@ -1,13 +1,13 @@
 const {GroupMessage} = require('../../models')
 const { Op } = require('sequelize');
-const getGroupMessagesService = async (groupId,dateFrom = new Date())=>{
+const getGroupMessagesService = async (groupId,datebefore = new Date())=>{
     try {
         const groupMessages = await GroupMessage.findAll(
             {
                 where:{
                     group_id:groupId,
                     date_sent:{
-                        [Op.lte]:dateFrom
+                        [Op.lte]:datebefore
                     }
                 },
                 limit: 85,

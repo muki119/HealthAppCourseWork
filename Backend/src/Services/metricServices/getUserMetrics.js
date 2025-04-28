@@ -16,14 +16,14 @@ const getPreviousWeekMonday = (mondayDate)=>{
     return (new Date(mondayBefore))
 }
 
-const getUserMetricsService = async (userId,dateFrom = null) => {
+const getUserMetricsService = async (userId,datebefore = null) => {
     try {
-        // incoming dateFrom should be a monday
+        // incoming datebefore should be a monday
         // find the monday of this week .
-        const dataBeforeDate = dateFrom // find all data before this date 
-            ?getThisWeekMonday(new Date (dateFrom)) //Current Monday
+        const dataBeforeDate = datebefore // find all data before this date 
+            ?getThisWeekMonday(new Date (datebefore)) //Current Monday
             :new Date() 
-        const dataAfterDate = dateFrom  // find all data after this date 
+        const dataAfterDate = datebefore  // find all data after this date 
             ?getPreviousWeekMonday(dataBeforeDate) // Monday of previous week
             : getThisWeekMonday(dataBeforeDate)  // Monday of current week.
         // should be dataAfterDate <= userMetricsData <= dataBeforeDate

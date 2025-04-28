@@ -3,9 +3,9 @@ const {getGroupMessagesService} = groupServices;
 
 const getGroupMessagesController = async (req, res,next) => {
     const {groupid} = req.params;
-    const {datefrom} = req.query
+    const {datebefore} = req.query
     try{
-        const groupMessages = await getGroupMessagesService(groupid, datefrom);
+        const groupMessages = await getGroupMessagesService(groupid, datebefore);
         res.json(groupMessages)
     }catch (error) {
         console.log('Error in getGroupMessagesController',error)
