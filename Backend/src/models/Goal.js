@@ -1,7 +1,7 @@
 const sequelize = require('../config/Database.js');
 const { DataTypes } = require('sequelize');
 
-const Goal = sequelize.define('Goal', {
+const Goal = sequelize.define('goal', {
     id:{
         type: DataTypes.UUID,
         primaryKey:true,
