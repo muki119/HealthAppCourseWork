@@ -7,16 +7,18 @@ const {
     getUserMetricController,
     updateMetricController
 } = metricControllers;
+const {metricValidators} = require('../validators')
+const {getMetricValidator,metricDataValidator,updateMetricDataValidator,metricIdValidator} = metricValidators
 
 
 metricRoutes.use(checkUserLoggedIn) // check if user is logged in before accessing any routes
 // get metrics (get all metrics from a certain date)  -- 
-metricRoutes.get('/metrics', getUserMetricController)
+metricRoutes.get('/metrics',getMetricValidator, getUserMetricController)
 // create metric
-metricRoutes.post('/metrics', createMetricController) // create a new metric
+metricRoutes.post('/metrics', metricDataValidator, createMetricController) // create a new metric
 // delete Metric (metric id)
-metricRoutes.delete('/metrics/:metricId', deleteMetricController) // delete a metric
+metricRoutes.delete('/metrics/:metricId', metricIdValidator, deleteMetricController) // delete a metric // check metricId not empty
 // update metric (metric id )
-metricRoutes.put('/metrics/:metricId', updateMetricController) // update a metric
+metricRoutes.put('/metrics/:metricId',metricIdValidator ,updateMetricDataValidator,updateMetricController) // update a metric // check metricId not empty
 
 module.exports = metricRoutes

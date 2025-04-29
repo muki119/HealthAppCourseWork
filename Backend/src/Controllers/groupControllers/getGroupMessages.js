@@ -1,7 +1,13 @@
 const {groupServices} = require('../../Services')
 const {getGroupMessagesService} = groupServices; 
+const { validationResult } = require('express-validator');
 
 const getGroupMessagesController = async (req, res,next) => {
+
+    const {errors} = validationResult(req);
+    if (errors.length > 0) {
+        return res.status(400).json({"error":errors[0].msg});
+    }
     const {groupid} = req.params;
     const {datebefore} = req.query
     try{

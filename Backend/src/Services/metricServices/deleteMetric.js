@@ -7,7 +7,7 @@ const deleteMetricService = async (metricId,userId) => {
             await Metric.destroy({
                 where:{
                     id:metricId,
-                    userId: userId
+                    user_id: userId
                 },
                 transaction:t
             })

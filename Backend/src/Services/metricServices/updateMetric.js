@@ -15,12 +15,8 @@ const updateMetricService = async (metricId,newUserData) => {
                 transaction:t
             })
             const affectedRows = updatedMetric[0]
-            if (!affectedRows) {
-                throw new Error('Metric not found');
-            }
-            return updatedMetric
+            return affectedRows
         })
-
         return updateMetricTransaction;
     } catch (error) {
         throw error

@@ -12,7 +12,7 @@ const Group = sequelize.define('group', {
         allowNull: false,
     },
     creator_id:{
-        type: DataTypes.UUID,
+        type: DataTypes.UUIDV4,
         allowNull: false,
         references: {
             model: 'users',

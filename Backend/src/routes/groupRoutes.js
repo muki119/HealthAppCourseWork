@@ -8,13 +8,15 @@ const {getUserGroupsController,
     leaveGroupController
 } = groupControllers;
 
+const {groupValidators} = require('../validators')
+const {groupIdValidator,createGroupDataValidator,getGroupMessagesValidator} = groupValidators;
 
 groupRoutes.use(checkUserLoggedIn); // check if user is logged in before accessing any routes
 groupRoutes.get('/groups',getUserGroupsController); // gets all user groups.
-groupRoutes.get('/groups/:groupid/messages',checkUserParticipationMiddleware,getGroupMessagesController); // gets messages of a certain group the user is in.
-groupRoutes.post('/groups',createGroupController); // create a group
-groupRoutes.get('/groups/:groupid/join',joinGroupController); // join a group
-groupRoutes.delete('/groups/:groupid/leave',checkUserParticipationMiddleware,leaveGroupController); // leave a group
+groupRoutes.get('/groups/:groupid/messages',groupIdValidator,checkUserParticipationMiddleware,getGroupMessagesValidator, getGroupMessagesController); // gets messages of a certain group the user is in.
+groupRoutes.post('/groups',createGroupDataValidator,createGroupController); // create a group
+groupRoutes.get('/groups/:groupid/join',groupIdValidator,joinGroupController); // join a group
+groupRoutes.delete('/groups/:groupid/leave',groupIdValidator,checkUserParticipationMiddleware,leaveGroupController); // leave a group
 
 
 
