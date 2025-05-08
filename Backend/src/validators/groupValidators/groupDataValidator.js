@@ -17,16 +17,6 @@ const createGroupDataValidator = checkSchema({
             options: ["en-GB",{ ignore: '_' }], // include underscore 
         }
     },
-    creator_id: {
-        trim: true,
-        isEmpty: {
-            options: {
-                ignore_whitespace: false // whitespace is not allowed
-            }
-        },
-        isUUID: true
-        
-    }
 });
 
 module.exports = createGroupDataValidator;

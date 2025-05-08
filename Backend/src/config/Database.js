@@ -1,15 +1,17 @@
 const { Sequelize } = require('sequelize');
 
 const database = new Sequelize({
-    dialect:'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'password',
-    database: 'HealthAppDatabase',
     logging: false,
+    dialect: 'postgres',
+    host:process.env.DATABASE_HOST,
+    database: process.env.DATABASE_DBNAME,
+    port: process.env.DATABASE_PORT,
+    username: process.env.DATABASE_USERNAME,
+    password : process.env.DATABASE_PASSWORD
 })
 
+
+// const database = new Sequelize('postgres://postgres:QAgnkrDfDXRLROMr@db.gphykvmirlysolhmhexd.supabase.co:5432/HealthAppDatabase')
 database.authenticate().then(() => {
     console.log("Connection has been established successfully.");
 }).catch((err) => {

@@ -8,11 +8,11 @@ const createGroupController = async (req, res,next) => {
         return res.status(400).json({"error":errors[0].msg});
     }
     const userId = req.session.user.id;
-    const {groupName} = req.body;
+    const {name} = req.body;
 
     //groupname needs to be checked.
     try {
-        const newGroup = await createGroupService(userId,groupName);
+        const newGroup = await createGroupService(userId,name);
         res.json(newGroup);
 
     }catch(error){ // there shouldnt be a problem creating the function thats a user error.

@@ -1,14 +1,14 @@
 const { checkSchema } = require('express-validator');
 
 const groupIdValidator = checkSchema({
-    group_id: {
+    groupid: {
         trim: true,
-        isEmpty: {
+        notEmpty: {
             options: {
                 ignore_whitespace: false// whitespace is not allowed
             }
         },
         isUUID: true,
     }
-});
+},['params']);
 module.exports = groupIdValidator;
