@@ -11,7 +11,6 @@ const database = new Sequelize({
 })
 
 
-// const database = new Sequelize('postgres://postgres:QAgnkrDfDXRLROMr@db.gphykvmirlysolhmhexd.supabase.co:5432/HealthAppDatabase')
 database.authenticate().then(() => {
     console.log("Connection has been established successfully.");
 }).catch((err) => {
