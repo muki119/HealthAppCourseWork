@@ -4,13 +4,16 @@ const app = Express();
 const BodyParser = require('body-parser');
 const session = require('express-session')
 const Database = require('./src/config/Database');
-const models = require('./src/models');
+const helmet = require('helmet')
+const compression = require('compression')
 const {errorHandlerMiddleware} = require('./src/middleware');
 const {authenticationRoutes, groupRoutes,metricRoutes,goalRoutes} = require('./src/routes');
 const port = process.env.PORT;
 
 
 // incorpoatation of rate limiting is needed.
+app.use(compression());
+app.use(helmet());
 app.use(BodyParser.json());
 app.use(session({
     name:'sid',
@@ -35,3 +38,7 @@ app.listen(port, (err) => {
     }
     console.log(`Listening on port ${port}`);
 });
+
+
+// add rate limiting 
+// make a socket.io microservice to handle group messages.

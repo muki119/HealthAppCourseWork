@@ -48,7 +48,7 @@ Description:Creates a new group.
 Input:A group name.  
 Return:The new groupchat information (json)  
 
-### /groups/:groupid/messages?datefrom =  
+### /groups/:groupid/messages?datebefore=  
 Type:Get  
 Description:Gets all messages from a group from a date.   
 Input:group_id and the date to get the messages from.    
