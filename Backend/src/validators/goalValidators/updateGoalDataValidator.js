@@ -1,16 +1,6 @@
 const { checkSchema } = require('express-validator');
 
 const updateGoalDataValidator = checkSchema({
-    goalId: {
-        optional: false,
-        trim: true,
-        notEmpty: {
-            options: {
-                ignore_whitespace: false // whitespace is not allowed
-            }
-        },
-        isUUID: true
-    },
     goal_name: {
         optional: true,
         isString: true,

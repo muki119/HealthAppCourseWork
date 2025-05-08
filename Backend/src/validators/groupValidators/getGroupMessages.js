@@ -1,15 +1,6 @@
 const { checkSchema } = require('express-validator');
 
 const getGroupMessagesValidator = checkSchema({
-    groupId: {
-        trim: true,
-        isEmpty: {
-            options: {
-                ignore_whitespace: false // whitespace is not allowed
-            }
-        },
-        isUUID:true,
-    },
     datebefore: {
         optional: true,
         toDate: true,
