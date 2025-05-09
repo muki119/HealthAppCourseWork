@@ -6,12 +6,14 @@ const session = require('express-session')
 const Database = require('./src/config/Database');
 const helmet = require('helmet')
 const compression = require('compression')
+const cors = require('cors');
 const {errorHandlerMiddleware} = require('./src/middleware');
 const {authenticationRoutes, groupRoutes,metricRoutes,goalRoutes} = require('./src/routes');
 const port = process.env.PORT;
 
 
 // incorpoatation of rate limiting is needed.
+app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(BodyParser.json());
