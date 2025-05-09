@@ -15,7 +15,7 @@ const LoginController = async (req,res,next)=>{
             return res.status(400).json({"error":'Invalid Username/Password.'})
         }
         req.session.user = user;
-        res.json(user);
+        res.status(200).json({message:"Successfully logged in"});
     } catch (error) {
         next(error)
     }
