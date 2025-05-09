@@ -13,7 +13,10 @@ const port = process.env.PORT;
 
 
 // incorpoatation of rate limiting is needed.
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+}));
 app.use(compression());
 app.use(helmet());
 app.use(BodyParser.json());
