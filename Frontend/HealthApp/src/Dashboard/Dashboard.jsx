@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
-import { Typography } from '@mui/material';
+import { Gauge } from '@mui/x-charts/Gauge';
+import { Toolbar, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import { BarChart } from '@mui/x-charts/BarChart';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export default function Dashboard() {
     const totalCalories = 250;
     const calorieLimit = 2000;
@@ -23,35 +25,61 @@ export default function Dashboard() {
         useEffect(() => {const minutesofExercise=exercise+1});
     }
     */
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const open2 = Boolean(anchorEl2)
+    const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setAnchorEl2(null);
+  };
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+    setAnchorEl(null);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setAnchorEl2(null);
+  };
+
+  const navigate = useNavigate();
     return(
         <>
         <Container maxWidth="False">
             <Box component="section" sx={{ bgcolor: '#E2E1E1', p: 2, borderRadius: '15px' }}>              
-                <Stack spacing={2}>                   
-                    <Box>
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
-                        <Grid size={4}>
-                            <AppBar position='static'></AppBar>
-                            <MenuIcon></MenuIcon>
-                            <h1>Dashboard</h1>
-                        </Grid>
-                        <Grid size={4}>
-                            <Box component="section" sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-                                <Avatar src="/broken-image.jpg" />
-                            </Box>
-                        </Grid>
-                        <Grid size={4}>
-                            <Box component="section" sx={{ display: 'flex', justifyContent: 'flex-end'}}>
-                                <Button variant="contained" sx={{ p: 2, alignItems: 'right' }}>
-                                    Logout 
-                                </Button>
-                            </Box>
-                        </Grid>
-                    </Grid>  
+                                  
+                    <Box sx={{ flexGrow: 1}}>
+                    <AppBar position='static' color= 'transparent' elevation={0}>
+                        <Toolbar>
+                            <MenuIcon id="menu-link" sx={{ width: 50, height: 50, mr: 2}} onClick={handleClick}></MenuIcon>
+                            <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            >
+                            <MenuItem onClick={()=> navigate("/")}>Groups</MenuItem>
+                            <MenuItem onClick={()=> navigate("/")}>Goals</MenuItem>
+                            
+                        </Menu>
+                        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                            Dashboard
+                        </Typography>
+                        <AccountCircleIcon id="profile-link" sx={{ width: 50, height: 50}} onClick={handleClick2}></AccountCircleIcon>                         
+                            <Menu 
+                                id="basic-menu2"
+                                anchorEl={anchorEl2}
+                                open={open2}
+                                onClose={handleClose}>
+                            
+                                <MenuItem onClick={()=> navigate("/login", { replace: true })}>Logout</MenuItem>
+                            </Menu>
+                        </Toolbar>
+                    </AppBar>  
                     </Box> 
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid size={6}>                 
-                            <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
+                    <Grid container rowSpacing={6} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>                 
+                            <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                     <Grid size={6}>  
                                         <h2>Exercise</h2>
@@ -72,8 +100,8 @@ export default function Dashboard() {
                                 </Grid>
                             </Box>
                         </Grid>
-                        <Grid size={6}>
-                            <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                            <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                     <Grid size={6}>  
                                         <h2>Calorific Intake</h2>
@@ -92,7 +120,7 @@ export default function Dashboard() {
                                                 endAngle={110}
                                                 sx={{
                                                     ['& .MuiGauge-valueText']: {
-                                                    fontSize: 20,
+                                                    fontSize: 15,
                                                     transform: 'translate(0px, 0px)',
                                                     },
                                                 }}
@@ -106,8 +134,8 @@ export default function Dashboard() {
                                 </Grid>
                             </Box>
                         </Grid>
-                        <Grid size={6}>
-                            <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                            <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                     <Grid size={6}>  
                                         <h2>Fluid Intake</h2>
@@ -126,7 +154,7 @@ export default function Dashboard() {
                                                 endAngle={110}
                                                 sx={{
                                                     ['& .MuiGauge-valueText']: {
-                                                    fontSize: 20,
+                                                    fontSize: 15,
                                                     transform: 'translate(0px, 0px)',
                                                     },
                                                 }}
@@ -140,9 +168,9 @@ export default function Dashboard() {
                                 </Grid>
                             </Box>
                         </Grid>
-                        <Grid size={6}>
-                            <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
-                                <Typography color='black'><h2>Exercise Summary</h2></Typography>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+                            <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
+                                <Typography color='black'>Exercise Summary</Typography>
                                 <BarChart
                                 xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]}
                                 series={[{ data: [50, 40, 30] }]}
@@ -150,9 +178,9 @@ export default function Dashboard() {
                                 />
                             </Box>
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
-                                <Typography color='black'><h2>Calorific Intake Summary</h2></Typography>
+                                <Typography color='black'>Calorific Intake Summary</Typography>
                                 <BarChart
                                 xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]}
                                 series={[{ data: [1700, 1950, 2000] }]}
@@ -160,9 +188,9 @@ export default function Dashboard() {
                                 />
                             </Box>
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
-                                <Typography color='black'><h2>Fluid Intake Summary</h2></Typography>
+                                <Typography color='black'>Fluid Intake Summary</Typography>
                                 <BarChart
                                 xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]}
                                 series={[{ data: [1700, 1950, 2000] }]}
@@ -170,18 +198,18 @@ export default function Dashboard() {
                                 />
                             </Box>
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
-                                <Typography color='black'><h2>Goals</h2></Typography>
+                                <Typography color='black'>Goals</Typography>
                             </Box>
                         </Grid>
-                        <Grid size={6}>
+                        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
-                                <Typography color='black'><h2>Groups</h2></Typography>
+                                <Typography color='black'>Groups</Typography>
                             </Box>
                         </Grid>
                     </Grid>
-                </Stack>
+                
             </Box>       
         </Container>
         </>       
