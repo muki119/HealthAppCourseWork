@@ -7,8 +7,10 @@ import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+    const navigate = useNavigate();
     const totalCalories = 250;
     const calorieLimit = 2000;
     const totalFluid = 250;
@@ -23,6 +25,24 @@ export default function Dashboard() {
                 <Stack spacing={2}>
                     
                     <Box><h1>Dashboard</h1></Box>
+                    <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
+                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                            <Grid size={6}>  
+                                <h2>Goals</h2>
+                            </Grid>
+                            <Grid size={6}>
+                                <Box component="section" sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                                    <Button 
+                                        variant="contained" 
+                                        sx={{ p: 2, alignItems: 'right' }}
+                                        onClick={() => navigate('/goals')}
+                                    >
+                                        Manage Goals
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
                     <Box sx={{ bgcolor: 'white', p: 2, borderRadius: '15px' }}>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid size={6}>  
