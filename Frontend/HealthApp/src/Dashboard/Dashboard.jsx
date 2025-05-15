@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import axios from "axios"
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -28,6 +28,8 @@ export default function Dashboard() {
    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorEl2, setAnchorEl2] = React.useState(null);
+    const [userData,setUserData] = useState({});
+
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2)
     const handleClick = (event) => {
@@ -43,10 +45,9 @@ export default function Dashboard() {
     setAnchorEl2(null);
   };
 
-  const [userData, setUserData] = useState({});
-  
-  
-      useEffect(()=>{
+
+
+    useEffect(()=>{
         const getuserdata = async ()=>{
             try {
                 
@@ -56,7 +57,7 @@ export default function Dashboard() {
                     console.log("error") // replace with error handling 
                     return
                 }
-                setUserData(response.userData)
+                setUserData(response.data)
             } catch (error) {
                 console.log(error)
             }
@@ -64,6 +65,10 @@ export default function Dashboard() {
 
         getuserdata()
     },[])
+
+    
+
+    
 
   const navigate = useNavigate();
     return(
