@@ -13,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 export default function Dashboard() {
     const totalCalories = 250;
     const calorieLimit = 2000;
@@ -28,7 +29,7 @@ export default function Dashboard() {
    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorEl2, setAnchorEl2] = React.useState(null);
-    const [userData,setUserData] = useState({});
+    const [userData,setUserData] = useState([]);
 
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2)
@@ -49,18 +50,19 @@ export default function Dashboard() {
 
     useEffect(()=>{
         const getuserdata = async ()=>{
-            try {
-                
+            
+                try{
                 const response = await axios.get("http://localhost:2556/api/v1/user")
-
+                }
+                catch{
+                    console.log('Get function did not work')
+                }
                 if (!response.status() === 200 ){
                     console.log("error") // replace with error handling 
                     return
                 }
                 setUserData(response.data)
-            } catch (error) {
-                console.log(error)
-            }
+
         }
 
         getuserdata()
@@ -109,7 +111,15 @@ export default function Dashboard() {
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>                 
                             <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                {userData.map((user) =>{
+                                    return <UserInfo key={userData.id}>
                                     <Grid size={6}>  
+
+                                        <Typography variant = 'h5' color='black'> {userData.forename}</Typography>
+                                    </Grid>
+                                    </UserInfo>
+                                })}
+                                    <Grid size={6}>
                                         <Typography variant = 'h5' color='black'>Exercise</Typography>
                                     </Grid>
                                     <Grid size={6}>
@@ -120,6 +130,9 @@ export default function Dashboard() {
                                         </Box>
                                     </Grid>
                                     <Grid size={6}>  
+                                         
+                                        <Typography variant='h5'>30 cal burned</Typography>
+                                        <AccessTimeFilledIcon sx={{ color: '#8abbf6', width: 50, height: 50}}></AccessTimeFilledIcon>   
                                         <Typography variant="h5">{minutesofExercise} minutes</Typography>
 
                                     </Grid>
@@ -208,11 +221,17 @@ export default function Dashboard() {
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                                 <Typography variant='h5' color='black'>Goals</Typography>
+                                <Typography variant='h6' color='black'>Goal 1</Typography>
+                                <Typography variant='h6' color='black'>Goal 1 Progress</Typography>
+                                <Typography variant='h6' color='black'>Goal 2</Typography>
+                                <Typography variant='h6' color='black'>Goal 2 Progress</Typography>
                             </Box>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                             <Box sx={{ height: "96%", bgcolor: 'white', p: "2%", borderRadius: '15px' }}>
                                 <Typography variant='h5' color='black'>Groups</Typography>
+                                <Typography variant='h6' color='black'>Group 1</Typography>
+                                <Typography variant='h6' color='black'>Group 2</Typography>
                             </Box>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 12, md: 6 }}>
