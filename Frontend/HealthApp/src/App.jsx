@@ -4,16 +4,26 @@ import Home from './Home/Home'
 import Login from './Login/Login'
 import Register from './Register/Register'
 import Dashboard from './Dashboard/Dashboard'
+<<<<<<< HEAD
 import Goals from './Goals/Goals'
 import { UserContext } from './userContext/userContext'
+=======
+import {AppContext} from './Contexts'
+>>>>>>> main
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
+<<<<<<< HEAD
   const [user, setUser] = useState(null);
+=======
+  const [user,  setUser] = useState(null);
+  const [metrics, setMetrics] = useState(null);
+  const [groups, setGroups] = useState(null);
+>>>>>>> main
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{ user, setUser }}>
+      <AppContext.Provider value={{ user, setUser, metrics, setMetrics, groups, setGroups }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -22,7 +32,7 @@ function App() {
           <Route path="/goals" element={<Goals />} />
           <Route path='*' element={<Home />} />
         </Routes>
-      </UserContext.Provider>
+      </AppContext.Provider>
     </BrowserRouter>
   )
 }
