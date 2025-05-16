@@ -5,7 +5,7 @@ import { BarChart,Gauge } from '@mui/x-charts';
 import { Button,Box,Container,Grid ,Toolbar, Typography } from '@mui/material';
 import MenuBar from './menu/menu';
 import { DashboardTile } from './dashboardTile/dashboardTile';
-import { UserContext } from '../userContext/userContext';
+import { AppContext } from '../Contexts';
 
 export default function Dashboard() {
     const totalCalories = 250;
@@ -14,14 +14,14 @@ export default function Dashboard() {
     const fluidLimit = 2000;
 
     const minutesofExercise = 30;
-    const {user,setUser} = useContext(UserContext) // contains basic information about the user
+    const { user, setUser, metrics, setMetrics, groups, setGroups } = useContext(AppContext);
     const navigate = useNavigate();
 
     useEffect(()=>{
         const getuserdata = async ()=>{
             try { 
                 const response = await axios.get("http://localhost:2556/api/v1/user")
-                if (!response.status === 200 ){
+                if (response.status !== 200 ){
                     console.log("error") // replace with error handling 
                     return
                 }
@@ -31,9 +31,36 @@ export default function Dashboard() {
             }
         }
 
-        getuserdata()
-    },[])
+        const getUserMetrics = async()=>{
+            try {
+                const userMetricsResponse = await axios.get("http://localhost:2556/api/v1/metrics")
+                if (userMetricsResponse.status !== 200){
+                    console.log("error")
+                    return
+                }
+                setMetrics(userMetricsResponse.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
+        const getUserGroups = async ()=>{
+            try {
+                const userGroupsResponse = await axios.get("http://localhost:2556/api/v1/groups")
+                if (userGroupsResponse.status !== 200){
+                    console.log("error")
+                    return
+                }
+                setGroups(userGroupsResponse.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        getuserdata()
+        getUserMetrics()
+        getUserGroups()
+    },[])
 
     return(
         <>
