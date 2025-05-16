@@ -30,7 +30,7 @@ export default function Login() {
         try {
             // Send POST request to backend login endpoint with credentials
             const response = await axios.post(
-                'http://localhost:5000/login', // Backend login route
+                'http://localhost:2556/api/v1/login', // Backend login route
                 { username, password }, // Request body
                 { withCredentials: true } // Include cookies (for session auth)
             );
