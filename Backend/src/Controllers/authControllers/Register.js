@@ -1,6 +1,7 @@
 const {authServices} = require("../../Services");
 const {registerService} = authServices;
 const { validationResult } = require('express-validator');
+const { User } = require('../../models');
 
 //Where the and outputs are handled
 const RegisterController = async (req,res,next)=>{
@@ -25,4 +26,18 @@ const RegisterController = async (req,res,next)=>{
         next(error)
     }
 };
-module.exports = RegisterController;
+
+const checkUsernameController = async (req, res, next) => {
+    try {
+        const { username } = req.params;
+        const existingUser = await User.findOne({ where: { username } });
+        res.json({ exists: !!existingUser });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    RegisterController,
+    checkUsernameController
+};

@@ -11,12 +11,11 @@ export default function Goals() {
     const [showAddGoal, setShowAddGoal] = useState(false);
     const [goals, setGoals] = useState([]);
     const [newGoal, setNewGoal] = useState({
-        title: '',
-        description: '',
-        targetDate: '',
-        category: '',
-        targetValue: '',
-        unit: ''
+        goal_name: '',
+        goal_type: '',
+        goal_value: '',
+        start_date: new Date().toISOString().split('T')[0],
+        end_date: ''
     });
     const [error, setError] = useState('');
 
@@ -42,7 +41,7 @@ export default function Goals() {
         setError('');
 
         // Validate date
-        const selectedDate = new Date(newGoal.targetDate);
+        const selectedDate = new Date(newGoal.end_date);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -58,12 +57,11 @@ export default function Goals() {
             if (response.status === 201) {
                 setShowAddGoal(false);
                 setNewGoal({
-                    title: '',
-                    description: '',
-                    targetDate: '',
-                    category: '',
-                    targetValue: '',
-                    unit: ''
+                    goal_name: '',
+                    goal_type: '',
+                    goal_value: '',
+                    start_date: new Date().toISOString().split('T')[0],
+                    end_date: ''
                 });
                 fetchGoals();
             }
@@ -94,7 +92,7 @@ export default function Goals() {
     };
 
     const filteredGoals = goals.filter(goal => 
-        activeTab === 'active' ? !goal.completed : goal.completed
+        activeTab === 'active' ? !goal.achieved : goal.achieved
     );
 
     return (
@@ -123,16 +121,16 @@ export default function Goals() {
 
                 <div className="goals-list">
                     {filteredGoals.map(goal => (
-                        <div key={goal._id} className="goal-card">
-                            <h3>{goal.title}</h3>
-                            <p>{goal.description}</p>
-                            <p>Target Date: {new Date(goal.targetDate).toLocaleDateString()}</p>
-                            <p>Category: {goal.category}</p>
-                            <p>Target: {goal.targetValue} {goal.unit}</p>
-                            {!goal.completed && (
+                        <div key={goal.id} className="goal-card">
+                            <h3>{goal.goal_name}</h3>
+                            <p>Type: {goal.goal_type}</p>
+                            <p>Target Value: {goal.goal_value}</p>
+                            <p>Start Date: {new Date(goal.start_date).toLocaleDateString()}</p>
+                            <p>End Date: {new Date(goal.end_date).toLocaleDateString()}</p>
+                            {!goal.achieved && (
                                 <button 
                                     className="complete-button"
-                                    onClick={() => handleComplete(goal._id)}
+                                    onClick={() => handleComplete(goal.id)}
                                 >
                                     Mark as Complete
                                 </button>
@@ -146,41 +144,19 @@ export default function Goals() {
                     <DialogContent>
                         <form onSubmit={handleSubmit} className="add-goal-form">
                             <TextField
-                                name="title"
-                                label="Goal Title"
-                                value={newGoal.title}
+                                name="goal_name"
+                                label="Goal Name"
+                                value={newGoal.goal_name}
                                 onChange={handleInputChange}
                                 fullWidth
                                 required
                                 margin="normal"
-                            />
-                            <TextField
-                                name="description"
-                                label="Description"
-                                value={newGoal.description}
-                                onChange={handleInputChange}
-                                fullWidth
-                                required
-                                margin="normal"
-                                multiline
-                                rows={3}
-                            />
-                            <TextField
-                                name="targetDate"
-                                label="Target Date"
-                                type="date"
-                                value={newGoal.targetDate}
-                                onChange={handleInputChange}
-                                fullWidth
-                                required
-                                margin="normal"
-                                InputLabelProps={{ shrink: true }}
                             />
                             <FormControl fullWidth margin="normal">
-                                <InputLabel>Category</InputLabel>
+                                <InputLabel>Goal Type</InputLabel>
                                 <Select
-                                    name="category"
-                                    value={newGoal.category}
+                                    name="goal_type"
+                                    value={newGoal.goal_type}
                                     onChange={handleInputChange}
                                     required
                                 >
@@ -192,33 +168,44 @@ export default function Goals() {
                                 </Select>
                             </FormControl>
                             <TextField
-                                name="targetValue"
+                                name="goal_value"
                                 label="Target Value"
                                 type="number"
-                                value={newGoal.targetValue}
+                                value={newGoal.goal_value}
                                 onChange={handleInputChange}
                                 fullWidth
                                 required
                                 margin="normal"
                             />
                             <TextField
-                                name="unit"
-                                label="Unit"
-                                value={newGoal.unit}
+                                name="start_date"
+                                label="Start Date"
+                                type="date"
+                                value={newGoal.start_date}
                                 onChange={handleInputChange}
                                 fullWidth
                                 required
                                 margin="normal"
+                                InputLabelProps={{ shrink: true }}
                             />
-                            {error && <p className="error-message">{error}</p>}
+                            <TextField
+                                name="end_date"
+                                label="End Date"
+                                type="date"
+                                value={newGoal.end_date}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                            {error && <Typography color="error">{error}</Typography>}
+                            <DialogActions>
+                                <Button onClick={() => setShowAddGoal(false)}>Cancel</Button>
+                                <Button type="submit" variant="contained" color="primary">Add Goal</Button>
+                            </DialogActions>
                         </form>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setShowAddGoal(false)}>Cancel</Button>
-                        <Button onClick={handleSubmit} variant="contained" color="primary">
-                            Add Goal
-                        </Button>
-                    </DialogActions>
                 </Dialog>
             </div>
         </div>
