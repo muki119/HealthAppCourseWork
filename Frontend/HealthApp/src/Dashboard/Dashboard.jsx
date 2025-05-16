@@ -29,6 +29,7 @@ export default function Dashboard() {
             } catch (error) {
                 console.log(error)
             }
+            
         }
 
         const getUserMetrics = async()=>{
@@ -70,16 +71,24 @@ export default function Dashboard() {
                     <MenuBar/>
                     </Box> 
                     <Grid container rowSpacing={6} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <DashboardTile tileTitle={"Calorfic Intake"}>
+                        <DashboardTile tileTitle={"Calorific Intake"}>
+                            <p>for {user.username} today</p>
                             <Gauge>
                             </Gauge>
                         </DashboardTile>
                         <DashboardTile tileTitle={"Fluid Intake"}>
+                            <p>for today</p>
                             <Gauge>
+
                             </Gauge>
+                            
                         </DashboardTile>
-                        <DashboardTile tileTitle="Goals"/>
-                        <DashboardTile tileTitle="Groups"/>
+                        <DashboardTile tileTitle="Goals">
+                            <p></p>
+                        </DashboardTile>
+                        <DashboardTile tileTitle="Groups">
+                            
+                        </DashboardTile>
                         <DashboardTile tileTitle="Exercise Summary">
                                 <BarChart xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]} series={[{ data: [50, 40, 30], color: '#8abbf6' }]} height={300}/>
                         </DashboardTile>
