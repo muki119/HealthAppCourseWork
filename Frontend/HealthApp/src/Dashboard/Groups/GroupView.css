@@ -1,0 +1,146 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #fffdfd;
+}
+  
+.group-list {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.group-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+
+.group-info {
+  margin-bottom: auto;
+}
+
+.new-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+} */
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.delete-button {
+  background-color: #c54b57; /* Bootstrap red */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #a71d2a;
+}
+
+.join-button {
+  background-color: #8abbf6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.join-button:hover {
+  background-color: #0056b3;
+}
+
+.group-card:last-child {
+  border-bottom: none;
+}
+
+.group-card h2 {
+  margin: 0 0 0.5rem;
+}
+
+
+.new-item-form input {
+  outline: none;
+  border: 1px solid hsl(200, 100%, 40%);
+  background: hsl(200, 100%, 30%);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  color: hsl(200, 100%, 90%);
+}
+
+.new-item-form input:focus {
+  border: 1px solid hsl(200, 100%, 70%);
+}
+
+.header {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+
+button {
+  padding: 0.4rem 0.8rem;
+  margin-left: 1rem;
+  background-color: #8abbf6;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(11, 76, 145);
+}
+
+form {
+  margin: 1rem 0;
+}
+
+form input {
+  padding: 0.4rem;
+  margin-right: 0.5rem;
+}
+
+.chatBox {
+  margin: 1rem 0;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fffefe;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+
