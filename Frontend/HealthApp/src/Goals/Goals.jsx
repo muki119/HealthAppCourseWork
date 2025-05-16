@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { UserContext } from '../userContext/userContext';
+import { AppContext } from '../Contexts';
 import './Goals.css';
 
 function Goals() {
-  const { user } = useContext(UserContext);
+  const { user, setUser, metrics, setMetrics, groups, setGroups } = useContext(AppContext);
   const [goals, setGoals] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [error, setError] = useState('');

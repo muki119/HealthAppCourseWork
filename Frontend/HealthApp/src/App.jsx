@@ -4,22 +4,14 @@ import Home from './Home/Home'
 import Login from './Login/Login'
 import Register from './Register/Register'
 import Dashboard from './Dashboard/Dashboard'
-<<<<<<< HEAD
 import Goals from './Goals/Goals'
-import { UserContext } from './userContext/userContext'
-=======
 import {AppContext} from './Contexts'
->>>>>>> main
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
-<<<<<<< HEAD
-  const [user, setUser] = useState(null);
-=======
   const [user,  setUser] = useState(null);
   const [metrics, setMetrics] = useState(null);
   const [groups, setGroups] = useState(null);
->>>>>>> main
 
   return (
     <BrowserRouter>
