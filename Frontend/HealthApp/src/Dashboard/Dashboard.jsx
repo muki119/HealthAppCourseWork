@@ -8,7 +8,6 @@ import { DashboardTile } from './dashboardTile/dashboardTile';
 import { AppContext } from '../Contexts';
 
 export default function Dashboard() {
-    const navigate = useNavigate();
     const totalCalories = 250;
     const calorieLimit = 2000;
     const totalFluid = 250;
@@ -16,6 +15,7 @@ export default function Dashboard() {
 
     const minutesofExercise = 30;
     const { user, setUser, metrics, setMetrics, groups, setGroups } = useContext(AppContext);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const getuserdata = async ()=>{
@@ -99,6 +99,7 @@ export default function Dashboard() {
                         </DashboardTile>
 
                     </Grid>
+                
             </Box>       
         </Container>
         </>       

@@ -1,6 +1,6 @@
 // Import necessary hooks and modules
 import React, { useState } from 'react'; // React core and useState for managing form state
-import { useNavigate } from 'react-router-dom'; // To programmatically navigate after login
+import { useNavigate, Link } from 'react-router-dom'; // To programmatically navigate after login
 import axios from 'axios'; // For making HTTP requests
 
 // Import UI components from Material UI
@@ -40,8 +40,13 @@ export default function Login() {
                 navigate('/dashboard');
             }
         } catch (err) {
+            console.error('Login error:', err);
             // Set error if login fails
-            setError('Invalid username or password');
+            if (err.response?.data?.error) {
+                setError(err.response.data.error);
+            } else {
+                setError('Invalid username or password');
+            }
         }
     };
 
@@ -63,8 +68,9 @@ export default function Login() {
                     sx={{
                         mt: 8, // margin top
                         p: 4, // padding
-                        bgcolor: '#E2E1E1', // background color
+                        bgcolor: 'white', // Changed to white for better contrast
                         borderRadius: '15px', // rounded corners
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Added subtle shadow
                     }}
                 >
                     {/* Header */}
@@ -83,6 +89,13 @@ export default function Login() {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': {
+                                            borderColor: '#8abbf6',
+                                        },
+                                    },
+                                }}
                             />
 
                             {/* Password input */}
@@ -94,6 +107,13 @@ export default function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        '&:hover fieldset': {
+                                            borderColor: '#8abbf6',
+                                        },
+                                    },
+                                }}
                             />
 
                             {/* Show error message if login fails */}
@@ -115,6 +135,23 @@ export default function Login() {
                             >
                                 Login
                             </Button>
+
+                            {/* Registration link */}
+                            <Typography align="center" sx={{ mt: 2 }}>
+                                Don't have an account?{' '}
+                                <Link 
+                                    to="/register" 
+                                    style={{ 
+                                        color: '#8abbf6',
+                                        textDecoration: 'none',
+                                        '&:hover': {
+                                            textDecoration: 'underline'
+                                        }
+                                    }}
+                                >
+                                    Register here
+                                </Link>
+                            </Typography>
                         </Stack>
                     </form>
                 </Box>

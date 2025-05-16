@@ -1,2 +1,12 @@
 import { createContext } from "react";
-export const AppContext = createContext(null)
+
+const defaultContext = {
+    user: null,
+    setUser: () => {},
+    metrics: null,
+    setMetrics: () => {},
+    groups: null,
+    setGroups: () => {}
+};
+
+export const AppContext = createContext(defaultContext);

@@ -1,230 +1,226 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AppContext } from '../Contexts';
+import { Box, Button, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import MenuBar from '../Dashboard/menu/menu';
 import './Goals.css';
 
-function Goals() {
-  const { user, setUser, metrics, setMetrics, groups, setGroups } = useContext(AppContext);
-  const [goals, setGoals] = useState([]);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('active');
-  
-  // Form state
-  const [goalName, setGoalName] = useState('');
-  const [goalType, setGoalType] = useState('calories');
-  const [goalValue, setGoalValue] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [isDaily, setIsDaily] = useState(false);
+export default function Goals() {
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState('active');
+    const [showAddGoal, setShowAddGoal] = useState(false);
+    const [goals, setGoals] = useState([]);
+    const [newGoal, setNewGoal] = useState({
+        title: '',
+        description: '',
+        targetDate: '',
+        category: '',
+        targetValue: '',
+        unit: ''
+    });
+    const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (user) {
-      loadGoals();
-    }
-  }, [user]);
+    useEffect(() => {
+        fetchGoals();
+    }, []);
 
-  const loadGoals = async () => {
-    try {
-      const response = await axios.get('/api/goals');
-      setGoals(response.data);
-    } catch (err) {
-      setError('Could not load goals');
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const newGoal = {
-        goal_name: goalName,
-        goal_type: goalType,
-        goal_value: goalValue,
-        end_date: endDate,
-        is_daily: isDaily
-      };
-
-      await axios.post('/api/goals', newGoal);
-      setShowAddForm(false);
-      loadGoals();
-      resetForm();
-    } catch (err) {
-      setError('Failed to add goal');
-    }
-  };
-
-  const handleDelete = async (goalId) => {
-    try {
-      await axios.delete(`/api/goals/${goalId}`);
-      loadGoals();
-    } catch (err) {
-      setError('Failed to delete goal');
-    }
-  };
-
-  const handleComplete = async (goalId) => {
-    try {
-      await axios.put(`/api/goals/${goalId}`, { completed: true });
-      loadGoals();
-    } catch (err) {
-      setError('Failed to complete goal');
-    }
-  };
-
-  const resetForm = () => {
-    setGoalName('');
-    setGoalType('calories');
-    setGoalValue('');
-    setEndDate('');
-    setIsDaily(false);
-  };
-
-  const getGoalTypeLabel = (type) => {
-    const types = {
-      calories: 'Calories',
-      water: 'Water Intake',
-      exercise: 'Exercise',
-      weight: 'Weight'
+    const fetchGoals = async () => {
+        try {
+            const response = await axios.get('http://localhost:2556/api/v1/goals', {
+                withCredentials: true
+            });
+            if (response.status === 200) {
+                setGoals(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching goals:', error);
+        }
     };
-    return types[type] || type;
-  };
 
-  const getGoalUnit = (type) => {
-    const units = {
-      calories: 'kcal',
-      water: 'ml',
-      exercise: 'minutes',
-      weight: 'kg'
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        // Validate date
+        const selectedDate = new Date(newGoal.targetDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (selectedDate < today) {
+            setError('Target date cannot be in the past');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:2556/api/v1/goals', newGoal, {
+                withCredentials: true
+            });
+            if (response.status === 201) {
+                setShowAddGoal(false);
+                setNewGoal({
+                    title: '',
+                    description: '',
+                    targetDate: '',
+                    category: '',
+                    targetValue: '',
+                    unit: ''
+                });
+                fetchGoals();
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || 'Failed to create goal');
+        }
     };
-    return units[type] || '';
-  };
 
-  const activeGoals = goals.filter(goal => !goal.completed);
-  const completedGoals = goals.filter(goal => goal.completed);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewGoal(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
-  return (
-    <div className="goals-page">
-      <div className="goals-container">
-        <h2>My Health Goals</h2>
-        
-        {error && <div className="error-message">{error}</div>}
+    const handleComplete = async (goalId) => {
+        try {
+            const response = await axios.put(`http://localhost:2556/api/v1/goals/${goalId}/complete`, {}, {
+                withCredentials: true
+            });
+            if (response.status === 200) {
+                fetchGoals();
+            }
+        } catch (error) {
+            console.error('Error completing goal:', error);
+        }
+    };
 
-        <div className="tabs">
-          <button 
-            className={activeTab === 'active' ? 'active' : ''} 
-            onClick={() => setActiveTab('active')}
-          >
-            Active Goals
-          </button>
-          <button 
-            className={activeTab === 'completed' ? 'active' : ''} 
-            onClick={() => setActiveTab('completed')}
-          >
-            Completed Goals
-          </button>
-        </div>
+    const filteredGoals = goals.filter(goal => 
+        activeTab === 'active' ? !goal.completed : goal.completed
+    );
 
-        <button className="add-button" onClick={() => setShowAddForm(true)}>
-          Add New Goal
-        </button>
+    return (
+        <div className="goals-page">
+            <MenuBar />
+            <div className="goals-container">
+                <h1>Goals</h1>
+                <div className="tabs">
+                    <button 
+                        className={activeTab === 'active' ? 'active' : ''} 
+                        onClick={() => setActiveTab('active')}
+                    >
+                        Active Goals
+                    </button>
+                    <button 
+                        className={activeTab === 'completed' ? 'active' : ''} 
+                        onClick={() => setActiveTab('completed')}
+                    >
+                        Completed Goals
+                    </button>
+                </div>
 
-        {showAddForm && (
-          <div className="add-goal-form">
-            <h3>Add New Goal</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Goal Name:</label>
-                <input
-                  type="text"
-                  value={goalName}
-                  onChange={(e) => setGoalName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Goal Type:</label>
-                <select value={goalType} onChange={(e) => setGoalType(e.target.value)}>
-                  <option value="calories">Calories</option>
-                  <option value="water">Water Intake</option>
-                  <option value="exercise">Exercise</option>
-                  <option value="weight">Weight</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label>Target Value:</label>
-                <input
-                  type="number"
-                  value={goalValue}
-                  onChange={(e) => setGoalValue(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>End Date:</label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={isDaily}
-                    onChange={(e) => setIsDaily(e.target.checked)}
-                  />
-                  Daily Goal
-                </label>
-              </div>
-
-              <div className="form-buttons">
-                <button type="submit">Save Goal</button>
-                <button type="button" onClick={() => setShowAddForm(false)}>
-                  Cancel
+                <button className="add-button" onClick={() => setShowAddGoal(true)}>
+                    Add New Goal
                 </button>
-              </div>
-            </form>
-          </div>
-        )}
 
-        <div className="goals-list">
-          {activeTab === 'active' ? (
-            activeGoals.map(goal => (
-              <div key={goal.id} className="goal-card">
-                <h3>{goal.goal_name}</h3>
-                <p>Type: {getGoalTypeLabel(goal.goal_type)}</p>
-                <p>Target: {goal.goal_value} {getGoalUnit(goal.goal_type)}</p>
-                {!goal.is_daily && <p>End Date: {new Date(goal.end_date).toLocaleDateString()}</p>}
-                <div className="progress-bar">
-                  <div 
-                    className="progress" 
-                    style={{width: `${(goal.current_progress / goal.goal_value) * 100}%`}}
-                  ></div>
+                <div className="goals-list">
+                    {filteredGoals.map(goal => (
+                        <div key={goal._id} className="goal-card">
+                            <h3>{goal.title}</h3>
+                            <p>{goal.description}</p>
+                            <p>Target Date: {new Date(goal.targetDate).toLocaleDateString()}</p>
+                            <p>Category: {goal.category}</p>
+                            <p>Target: {goal.targetValue} {goal.unit}</p>
+                            {!goal.completed && (
+                                <button 
+                                    className="complete-button"
+                                    onClick={() => handleComplete(goal._id)}
+                                >
+                                    Mark as Complete
+                                </button>
+                            )}
+                        </div>
+                    ))}
                 </div>
-                <div className="goal-actions">
-                  <button onClick={() => handleComplete(goal.id)}>Complete</button>
-                  <button onClick={() => handleDelete(goal.id)}>Delete</button>
-                </div>
-              </div>
-            ))
-          ) : (
-            completedGoals.map(goal => (
-              <div key={goal.id} className="goal-card completed">
-                <h3>{goal.goal_name}</h3>
-                <p>Type: {getGoalTypeLabel(goal.goal_type)}</p>
-                <p>Completed on: {new Date(goal.end_date).toLocaleDateString()}</p>
-              </div>
-            ))
-          )}
+
+                <Dialog open={showAddGoal} onClose={() => setShowAddGoal(false)}>
+                    <DialogTitle>Add New Goal</DialogTitle>
+                    <DialogContent>
+                        <form onSubmit={handleSubmit} className="add-goal-form">
+                            <TextField
+                                name="title"
+                                label="Goal Title"
+                                value={newGoal.title}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                            />
+                            <TextField
+                                name="description"
+                                label="Description"
+                                value={newGoal.description}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                                multiline
+                                rows={3}
+                            />
+                            <TextField
+                                name="targetDate"
+                                label="Target Date"
+                                type="date"
+                                value={newGoal.targetDate}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    name="category"
+                                    value={newGoal.category}
+                                    onChange={handleInputChange}
+                                    required
+                                >
+                                    <MenuItem value="weight">Weight</MenuItem>
+                                    <MenuItem value="exercise">Exercise</MenuItem>
+                                    <MenuItem value="nutrition">Nutrition</MenuItem>
+                                    <MenuItem value="sleep">Sleep</MenuItem>
+                                    <MenuItem value="other">Other</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                name="targetValue"
+                                label="Target Value"
+                                type="number"
+                                value={newGoal.targetValue}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                            />
+                            <TextField
+                                name="unit"
+                                label="Unit"
+                                value={newGoal.unit}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                                margin="normal"
+                            />
+                            {error && <p className="error-message">{error}</p>}
+                        </form>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setShowAddGoal(false)}>Cancel</Button>
+                        <Button onClick={handleSubmit} variant="contained" color="primary">
+                            Add Goal
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-export default Goals; 
+    );
+} 

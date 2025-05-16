@@ -1,6 +1,6 @@
 const authenticationRoutes = require("express").Router();
 const {authControllers} = require("../Controllers");
-const {loginController, getUserController,registerController,logoutController} = authControllers;
+const {loginController, getUserController, registerController, logoutController, checkUsernameController} = authControllers;
 const {checkUserLoggedIn} = require('../middleware')
 const {authValidators} = require("../validators");
 const {loginValidator, registerValidator} = authValidators;
@@ -9,5 +9,6 @@ authenticationRoutes.post("/login",loginValidator, loginController); // check if
 authenticationRoutes.get("/user",checkUserLoggedIn,getUserController); // check if user is logged in
 authenticationRoutes.delete("/logout",checkUserLoggedIn,logoutController);
 authenticationRoutes.post("/register", registerValidator, registerController); // check username is valid and password is valid (no spaces and no special characters) 
+authenticationRoutes.get("/check-username/:username", (req, res, next) => checkUsernameController(req, res, next));
 
 module.exports = authenticationRoutes;

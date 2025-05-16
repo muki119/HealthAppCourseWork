@@ -2,17 +2,20 @@
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
 }
 
 .goals-container {
-  background-color: #f5f5f5;
+  background-color: white;
   padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .goals-container h2 {
   text-align: center;
-  color: #333;
+  color: #8abbf6;
   margin-bottom: 20px;
 }
 
@@ -34,13 +37,14 @@
 .tabs button {
   padding: 8px 16px;
   border: none;
-  background-color: #e0e0e0;
+  background-color: #f5f5f5;
   cursor: pointer;
   border-radius: 4px;
+  color: #666;
 }
 
 .tabs button.active {
-  background-color: #4CAF50;
+  background-color: #8abbf6;
   color: white;
 }
 
@@ -48,12 +52,17 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #8abbf6;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 20px;
+  transition: background-color 0.2s;
+}
+
+.add-button:hover {
+  background-color: #6f9ee3;
 }
 
 .add-goal-form {
@@ -61,11 +70,13 @@
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .add-goal-form h3 {
   margin-top: 0;
   margin-bottom: 15px;
+  color: #8abbf6;
 }
 
 .form-group {
@@ -86,6 +97,12 @@
   border-radius: 4px;
 }
 
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #8abbf6;
+}
+
 .form-buttons {
   display: flex;
   gap: 10px;
@@ -97,14 +114,24 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .form-buttons button[type="submit"] {
-  background-color: #4CAF50;
+  background-color: #8abbf6;
   color: white;
 }
 
+.form-buttons button[type="submit"]:hover {
+  background-color: #6f9ee3;
+}
+
 .form-buttons button[type="button"] {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.form-buttons button[type="button"]:hover {
   background-color: #e0e0e0;
 }
 
@@ -123,7 +150,7 @@
 .goal-card h3 {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #333;
+  color: #8abbf6;
 }
 
 .goal-card p {
