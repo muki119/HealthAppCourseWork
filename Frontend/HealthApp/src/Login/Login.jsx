@@ -30,7 +30,7 @@ export default function Login() {
         try {
             // Send POST request to backend login endpoint with credentials
             const response = await axios.post(
-                'http://localhost:5000/login', // Backend login route
+                'http://localhost:2556/api/v1/login', // Backend login route
                 { username, password }, // Request body
                 { withCredentials: true } // Include cookies (for session auth)
             );
@@ -47,60 +47,78 @@ export default function Login() {
 
     // JSX for rendering the login form
     return (
-        <Container maxWidth="sm"> {/* Centered container with max width */}
-            <Box
-                sx={{
-                    mt: 8, // margin top
-                    p: 4, // padding
-                    bgcolor: '#E2E1E1', // background color
-                    borderRadius: '15px', // rounded corners
-                }}
-            >
-                {/* Header */}
-                <Typography variant="h4" gutterBottom>
-                    Login
-                </Typography>
+        // Outer Box to apply full page background color
+        <Box
+            sx={{
+                minHeight: '100vh',
+                bgcolor: '#f5f5f5', // primary background
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                p: 2,
+            }}
+        >
+            <Container maxWidth="sm"> {/* Centered container with max width */}
+                <Box
+                    sx={{
+                        mt: 8, // margin top
+                        p: 4, // padding
+                        bgcolor: '#E2E1E1', // background color
+                        borderRadius: '15px', // rounded corners
+                    }}
+                >
+                    {/* Header */}
+                    <Typography variant="h4" gutterBottom sx={{ color: '#8abbf6' }}>
+                        Login
+                    </Typography>
 
-                {/* Form element */}
-                <form onSubmit={handleLogin}>
-                    <Stack spacing={3}> {/* Vertically stacked inputs */}
-                        {/* Username input */}
-                        <TextField
-                            label="Username"
-                            variant="outlined"
-                            fullWidth
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
+                    {/* Form element */}
+                    <form onSubmit={handleLogin}>
+                        <Stack spacing={3}> {/* Vertically stacked inputs */}
+                            {/* Username input */}
+                            <TextField
+                                label="Username"
+                                variant="outlined"
+                                fullWidth
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
 
-                        {/* Password input */}
-                        <TextField
-                            label="Password"
-                            type="password"
-                            variant="outlined"
-                            fullWidth
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                            {/* Password input */}
+                            <TextField
+                                label="Password"
+                                type="password"
+                                variant="outlined"
+                                fullWidth
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
 
-                        {/* Show error message if login fails */}
-                        {error && (
-                            <Typography color="error">{error}</Typography>
-                        )}
+                            {/* Show error message if login fails */}
+                            {error && (
+                                <Typography color="error">{error}</Typography>
+                            )}
 
-                        {/* Submit button */}
-                        <Button
-                            variant="contained"
-                            type="submit"
-                            sx={{ p: 1.5 }}
-                        >
-                            Login
-                        </Button>
-                    </Stack>
-                </form>
-            </Box>
-        </Container>
+                            {/* Submit button */}
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    p: 1.5,
+                                    bgcolor: '#8abbf6',
+                                    '&:hover': {
+                                        bgcolor: '#6f9ee3',
+                                    },
+                                }}
+                            >
+                                Login
+                            </Button>
+                        </Stack>
+                    </form>
+                </Box>
+            </Container>
+        </Box>
     );
 }
