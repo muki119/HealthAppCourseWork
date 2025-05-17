@@ -11,6 +11,7 @@ import {
     Button,
     Typography,
     Stack,
+    Link
 } from '@mui/material';
 
 // Login component definition
@@ -115,6 +116,11 @@ export default function Login() {
                             >
                                 Login
                             </Button>
+                            <Box>
+                                <Typography variant="body2" color="text.secondary">
+                                    Don't have an account? <Link href="/register">Register</Link>
+                                </Typography>
+                            </Box>
                         </Stack>
                     </form>
                 </Box>
