@@ -1,10 +1,11 @@
-import React, { useState,useMemo, use } from 'react';
+import React, { useState,useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Register.css';
 import { Box, Button, Container, Stack, TextField, Typography,Input } from '@mui/material';
 import {RegisterForm} from './registerForm.jsx'
 import { SuccessfulRegisterView } from './successfulRegisterView.jsx';
+import debounce from 'lodash/debounce';
 
 function Register() {
   const navigate = useNavigate();
@@ -27,25 +28,27 @@ function Register() {
       [name]: value,
     }));
   }
-  const handleSubmit = async (e) => {
-    try{
-      e.preventDefault();
-      const response = await axios.post('http://localhost:2556/api/v1/register', userData); // unsuccessful register will throw error 
-      // Handle successful registration
-      if (response.status === 201) {
-        setError('');
-        setSuccessfulRegister(true);
+  const handleSubmit = useCallback(
+    debounce(async (e) => {
+      try {
+        e.preventDefault();
+        const response = await axios.post('http://localhost:2556/api/v1/register', userData); // unsuccessful register will throw error 
+        // Handle successful registration
+        if (response.status === 201) {
+          setError('');
+          setSuccessfulRegister(true);
+        }
+      } catch (error) {
+        setSuccessfulRegister(false);
+        setError(error.response?.data?.error || 'An error occurred. Please try again.');
+        return;
       }
-    }catch(error){
-      setSuccessfulRegister(false);
-      setError(error.response?.data?.error||'An error occurred. Please try again.');
-      return
-    }
-
-}
+    }, 700),
+    [userData, setError, setSuccessfulRegister]
+  );
 
   const datePickerMinimum = useMemo(()=>{
-    return new Date(new Date().setFullYear(new Date().getFullYear()-100)).toISOString().split('T')[0];
+    return new Date(new Date().setFullYear(new Date().getFullYear()-150)).toISOString().split('T')[0];
   },[])
 
   const datePickerMaximum = useMemo(()=>{

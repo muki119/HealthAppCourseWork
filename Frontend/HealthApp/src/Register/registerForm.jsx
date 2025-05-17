@@ -28,7 +28,7 @@ export const RegisterForm= ({handleSubmit,userData,handleChange,error,datePicker
                 Register
             </Typography>
             {/* Form element */}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e)=>(e.preventDefault(),handleSubmit(e))}>
                 <Stack spacing={3}> {/* Vertically stacked inputs */}
                     <Input name = "username" type='text' placeholder='Username' value={userData.username} onChange={handleChange} required inputProps={usernameAttributes}></Input>
                     <Input name = "password" type='password' placeholder='Password' value={userData.password} onChange={handleChange} required inputProps={passwordAttributes}></Input>
