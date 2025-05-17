@@ -38,7 +38,7 @@ function Register() {
       }
     }catch(error){
       setSuccessfulRegister(false);
-      setError(error?.response?.data?.error||'An error occurred. Please try again.');
+      setError(error.response?.data?.error||'An error occurred. Please try again.');
       return
     }
 
