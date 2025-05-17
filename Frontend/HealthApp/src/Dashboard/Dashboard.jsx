@@ -22,23 +22,19 @@ export default function Dashboard() {
                 console.log("error")
                 return
             }
-            setUser(null)
-            setMetrics(null)
-            setGroups(null)
-            navigate("/login", { replace: true })
         } catch (error) {
             console.log(error)
         }
+        setUser(null)
+        setMetrics(null)
+        setGroups(null)
+        navigate("/login", { replace: true })
     }
 
     useEffect(()=>{
         const getuserdata = async ()=>{
             try { 
                 const response = await axios.get("http://localhost:2556/api/v1/user")
-                if (response.status === 401){
-                    handleLogout()
-                    return
-                }
                 if (response.status !== 200 ){
                     console.log("error") // replace with error handling 
                     return
@@ -56,10 +52,6 @@ export default function Dashboard() {
         const getUserMetrics = async()=>{
             try {
                 const userMetricsResponse = await axios.get("http://localhost:2556/api/v1/metrics")
-                if (userMetricsResponse.status === 401){
-                    handleLogout()
-                    return
-                }
                 if (userMetricsResponse.status !== 200){
                     console.log("error") 
                     return
@@ -78,10 +70,6 @@ export default function Dashboard() {
                 const userGroupsResponse = await axios.get("http://localhost:2556/api/v1/groups")
                 if (userGroupsResponse.status !== 200){
                     console.log("error")
-                    return
-                }
-                if (userGroupsResponse.status === 401){
-                    handleLogout()
                     return
                 }
                 setGroups(userGroupsResponse.data)
@@ -148,10 +136,10 @@ export default function Dashboard() {
 
     return(
         <>
-        <Container maxWidth="False">
-            <Box component="section" sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: '15px' }}>                              
+        <Container disableGutters  maxWidth="False">
+            <Box  sx={{ bgcolor: '#f5f5f5', p: 2, borderRadius: '15px' }}>                              
                     <Box sx={{ flexGrow: 1}}>
-                    <MenuBar/>
+                    <MenuBar user={user} pageName={"Dashboard"} />
                     </Box> 
                     <Grid container rowSpacing={6} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <DashboardTile tileTitle={"Calorific Intake"}>
