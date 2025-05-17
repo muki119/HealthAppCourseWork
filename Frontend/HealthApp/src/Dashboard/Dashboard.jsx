@@ -11,11 +11,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 export default function Dashboard() {
-
+    const calorieLimit = 2000;
+    const fluidLimit = 2000;
     const minutesofExercise = 30;
     const { user, setUser, 
         metrics, setMetrics, 
-        groups, setGroups } = useContext(AppContext);
+        groups, setGroups, goals, setGoals } = useContext(AppContext);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -103,6 +104,7 @@ export default function Dashboard() {
         getuserdata()
         getUserMetrics()
         getUserGroups()
+        getUserGoals()
     },[])
 
     const getCaloricIntake = useMemo(() => {
@@ -182,6 +184,28 @@ export default function Dashboard() {
                                 series={[{ data: [1700, 1950, 2000], color: '#8abbf6'}]}
                                 height={300}
                             />
+                        </DashboardTile>
+                        <DashboardTile tileTitle="Goals">
+                                <Row xs={1} md={2} className="g-2">
+
+                                    {goals &&
+                                    goals.filter((goal)=> goal.goal_name != "parse").map((goal, id) => (
+                                        <Col key={id}>
+
+                                        <Card key={id}>
+                                            
+                                            <Card.Body>
+                                            
+                                            <Card.Title>Goal Name: {goal.goal_name}</Card.Title>
+                                            <Card.Title>Goal Start Date: {goal.start_date.slice(0,10)}</Card.Title>
+                                            <Card.Title>Goal End Date: {goal.end_date.slice(0,10)}</Card.Title>
+
+
+                                            </Card.Body>
+                                        </Card>
+                                        </Col>
+                                    ))}
+                                </Row>
                         </DashboardTile>
 
                     </Grid>
