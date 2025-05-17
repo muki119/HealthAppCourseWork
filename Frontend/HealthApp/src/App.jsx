@@ -1,4 +1,5 @@
 import { lazy , useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import Home from './Home/Home'
 import Login from './Login/Login'
@@ -10,10 +11,11 @@ function App() {
   const [user,  setUser] = useState(null);
   const [metrics, setMetrics] = useState(null);
   const [groups, setGroups] = useState(null);
+  const [goals, setGoals] = useState(null);
 
   return (
     <BrowserRouter>
-      <AppContext.Provider value={{ user, setUser, metrics, setMetrics, groups, setGroups }}>
+      <AppContext.Provider value={{ user, setUser, metrics, setMetrics, groups, setGroups, goals, setGoals }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

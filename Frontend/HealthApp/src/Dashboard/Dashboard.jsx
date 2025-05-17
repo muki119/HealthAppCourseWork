@@ -6,15 +6,13 @@ import { Button,Box,Container,Grid ,Toolbar, Typography } from '@mui/material';
 import MenuBar from './menu/menu';
 import { DashboardTile } from './dashboardTile/dashboardTile';
 import { AppContext } from '../Contexts';
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 export default function Dashboard() {
-    const totalCalories = 250;
-    const calorieLimit = 2000;
-    const totalFluid = 250;
-    const fluidLimit = 2000;
 
-    const minutesofExercise = 30;
-    const { user, setUser, metrics, setMetrics, groups, setGroups } = useContext(AppContext);
+    const { user, setUser, metrics, setMetrics, groups, setGroups, goals, setGoals } = useContext(AppContext);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -57,12 +55,28 @@ export default function Dashboard() {
                 console.log(error)
             }
         }
+        const getUserGoals = async ()=>{
+            try { 
+                const userGoalsResponse = await axios.get("http://localhost:2556/api/v1/goals")
+                if (userGoalsResponse.status !== 200 ){
+                    console.log("error")
+                    return
+                }
+                setGoals(userGoalsResponse.data)
+            } catch (error) {
+                console.log(error)
+            }
+            
+        }
 
         getuserdata()
         getUserMetrics()
         getUserGroups()
-    },[])
+        getUserGoals()
 
+        //const goalsFiltered = goals.filter((goal)=> goal.goal_name != "parse")
+    },[])
+    
     return(
         <>
         <Container maxWidth="False">
@@ -72,25 +86,46 @@ export default function Dashboard() {
                     </Box> 
                     <Grid container rowSpacing={6} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <DashboardTile tileTitle={"Calorific Intake"}>
-                            <p>for {user.username} today</p>
+
+
                             <Gauge>
                             </Gauge>
                         </DashboardTile>
                         <DashboardTile tileTitle={"Fluid Intake"}>
-                            <p>for today</p>
-                            <Gauge>
 
+                            <Gauge>
                             </Gauge>
+
                             
                         </DashboardTile>
                         <DashboardTile tileTitle="Goals">
-                            <p></p>
+                                <Row xs={1} md={2} className="g-2">
+
+                                    {goals &&
+                                    goals.filter((goal)=> goal.goal_name != "parse").map((goal, id) => (
+                                        <Col key={id}>
+
+                                        <Card key={id}>
+                                            
+                                            <Card.Body>
+                                            
+                                            <Card.Title>Goal Name: {goal.goal_name}</Card.Title>
+                                            <Card.Title>Goal Start Date: {goal.start_date.slice(0,10)}</Card.Title>
+                                            <Card.Title>Goal End Date: {goal.end_date.slice(0,10)}</Card.Title>
+
+
+                                            </Card.Body>
+                                        </Card>
+                                        </Col>
+                                    ))}
+                                </Row>
                         </DashboardTile>
                         <DashboardTile tileTitle="Groups">
                             
+
                         </DashboardTile>
                         <DashboardTile tileTitle="Exercise Summary">
-                                <BarChart xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]} series={[{ data: [50, 40, 30], color: '#8abbf6' }]} height={300}/>
+                                <BarChart xAxis={[{ scaleType: 'band', data: [] }]} series={[{ data: [], color: '#8abbf6' }]} height={300}/>
                         </DashboardTile>
                         <DashboardTile tileTitle="Calorific Intake Summary">
                                 <BarChart
