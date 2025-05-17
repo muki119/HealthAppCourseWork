@@ -31,6 +31,7 @@ const metricDataValidator = checkSchema({
         }
     },
     time_of_day: {
+        optional: true,
         notEmpty: {
             options: {
                 ignore_whitespace: false // whitespace is not allowed
