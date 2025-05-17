@@ -19,7 +19,7 @@ export const SuccessfulRegisterView = ({navigate})=>{
                       Your account has been successfully created. You can now log in.
                     </Typography>
                     <Button variant="contained" onClick={() => navigate('/login')} sx={{ mt: 2 }}>
-                      Go to Login
+                      Login
                     </Button>
                 </Box>
     </Container>

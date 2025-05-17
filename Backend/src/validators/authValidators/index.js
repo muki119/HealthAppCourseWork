@@ -55,6 +55,7 @@ const registerValidator = checkSchema({
         },
         isAlphanumeric:{ // allow [a-zA-Z0-9] and _ 
             options: ['en-GB',{ ignore: '_' }], // include underscore 
+            errorMessage:"Invalid Username/Password."
         }
 
     },
@@ -72,14 +73,15 @@ const registerValidator = checkSchema({
         },
         isAlphanumeric:{ // allow [a-zA-Z0-9] and _ 
             options: ['en-GB',{ ignore: '_' }], // include underscore 
-        }
+        },
+        errorMessage:"Invalid Username/Password."
     },
     forename:{
         optional:false,
         isString:true,
         trim:true,
         isLength: {
-            options: { min: 3, max: 20 },
+            options: { min: 3, max: 64 },
         },
         notEmpty:{ 
             options:{
@@ -88,14 +90,15 @@ const registerValidator = checkSchema({
         },
         isAlpha:{ // allow [a-zA-Z0-9] and  -
             options: ['en-GB',{ ignore: ['-', "'"] }], // include hyphen and apostrophe
-        }
+        },
+        errorMessage:"Invalid Forename."
     },
     surname:{
         optional:false,
         isString:true,
         trim:true,
         isLength: {
-            options: { min: 3, max: 20 },
+            options: { min: 3, max: 64 },
         },
         notEmpty:{ 
             options:{
@@ -104,7 +107,8 @@ const registerValidator = checkSchema({
         },
         isAlpha:{ // allow [a-zA-Z0-9] and _ 
             options: ['en-GB',{ ignore: ['-', '_'] },] // include underscore 
-        }
+        },
+        errorMessage:"Invalid Surname."
     },
     email:{
         optional:false,
@@ -120,7 +124,8 @@ const registerValidator = checkSchema({
             options:{
                 all_lowercase:true // convert to lowercase
             }
-        }
+        },
+        errorMessage:"Invalid Email."
     },
     height:{
         optional:false,
@@ -134,7 +139,8 @@ const registerValidator = checkSchema({
                 min:0,
                 max:300
             }
-        }
+        },
+        errorMessage:"Invalid Height."
     },
     weight:{
         optional:false,
@@ -146,9 +152,10 @@ const registerValidator = checkSchema({
         isFloat:{
             options:{
                 min:0,
-                max:500
+                max:700
             }
-        }
+        },
+        errorMessage:"Invalid Weight."
     },
 },["body"])
 

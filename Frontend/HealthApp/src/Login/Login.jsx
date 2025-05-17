@@ -40,7 +40,7 @@ export default function Login() {
             }
         } catch (err) {
             // Set error if login fails
-            setError('Invalid username or password');
+            setError(err.response?.data?.error || 'Login failed. Please try again.');
         }
     };
 

@@ -30,17 +30,15 @@ function Register() {
   const handleSubmit = async (e) => {
     try{
       e.preventDefault();
-      const response = await axios.post('http://localhost:2556/api/v1/register', userData);
-      if (response.status === 400 || response.data.error){
-        setSuccessfulRegister(false);
-        setError(response.data.error);
-        return
-      }
+      const response = await axios.post('http://localhost:2556/api/v1/register', userData); // unsuccessful register will throw error 
+      // Handle successful registration
       if (response.status === 201) {
         setError('');
         setSuccessfulRegister(true);
       }
     }catch(error){
+      setSuccessfulRegister(false);
+      setError(error?.response?.data?.error||'An error occurred. Please try again.');
       return
     }
 
@@ -64,7 +62,11 @@ function Register() {
                     }}
                 >
 
-                {successfulRegister?<SuccessfulRegisterView {...{navigate}}/>:<RegisterForm {...{handleSubmit,userData,handleChange,error,datePickerMaximum,datePickerMinimum}}/>}
+                {
+                  successfulRegister?
+                  <SuccessfulRegisterView {...{navigate}}/>
+                  :<RegisterForm {...{handleSubmit,userData,handleChange,error,datePickerMaximum,datePickerMinimum}}/>
+                }
                 </Box>
     </Container>
 
