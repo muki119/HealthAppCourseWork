@@ -24,10 +24,10 @@ export default function MenuBar ({user,pageName}){
                 </Box>
                 <Box sx={{flexGrow: 80, display:{ xs: 'none', sm: 'flex' }, alignItems: 'center',justifyContent:'center'}}>
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap'}}>
-                        <Button disabled = {pageName === "Dashboard"}>Dashboard</Button>
-                        <Button disabled = {pageName === "Tracking"}>Tracking</Button>
-                        <Button disabled = {pageName === "Goals"}>Goals</Button>
-                        <Button disabled = {pageName === "Groups"}>Groups</Button>    
+                        <Button onClick={() => navigate("/dashboard", { replace: true })} disabled = {pageName === "Dashboard"}>Dashboard</Button>
+                        <Button onClick={() => navigate("/tracking", { replace: true })} disabled = {pageName === "Tracking"}>Tracking</Button>
+                        <Button onClick={() => navigate("/goals", { replace: true })} disabled = {pageName === "Goals"}>Goals</Button>
+                        <Button onClick={() => navigate("/groups", { replace: true })} disabled = {pageName === "Groups"}>Groups</Button>    
                     </Box>
                 </Box>
 
