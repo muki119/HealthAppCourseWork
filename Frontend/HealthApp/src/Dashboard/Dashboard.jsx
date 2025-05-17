@@ -2,16 +2,13 @@ import React, { useContext, useEffect, useState,useCallback,useMemo } from 'reac
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { BarChart,Gauge } from '@mui/x-charts';
-import { Button,Box,Container,Grid ,Toolbar, Typography } from '@mui/material';
+import { Button,Box,Container,Grid ,Toolbar, Typography,Card, CardContent} from '@mui/material';
 import MenuBar from './menu/menu';
 import { DashboardTile } from './dashboardTile/dashboardTile';
-import BarChartTile  from './barChartTile';
+import BarChartTile  from './barchartTile/barChartTile';
 import { AppContext } from '../Contexts';
 
 export default function Dashboard() {
-    const calorieLimit = 2000;
-    const fluidLimit = 2000;
-    const minutesofExercise = 30;
     const { user, setUser, 
         metrics, setMetrics, 
         groups, setGroups,
@@ -179,7 +176,7 @@ export default function Dashboard() {
                             <BarChartTile metricType="EXERCISE" metrics={metrics}/>
                         </DashboardTile>
                         <DashboardTile tileTitle="Goals">
-                                <Row xs={1} md={2} className="g-2">
+                                {/* <Row xs={1} md={2} className="g-2">
 
                                     {goals &&
                                     goals.map((goal, id) => (
@@ -199,7 +196,33 @@ export default function Dashboard() {
                                         </Card>
                                         </Col>
                                     ))}
-                                </Row>
+                                </Row> */}
+
+                                {
+                                    goals && goals.map((goal, id) => {
+                                        return (
+                                            <Card variant='outlined' key={id} sx={{ minWidth: 275, marginBottom: 2 }}>
+                                                <CardContent>
+                                                    <Typography variant="h5" component="div">
+                                                        Goal Name: {goal.goal_name}
+                                                    </Typography>
+                                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                                        Goal Type: {goal.goal_type}
+                                                    </Typography>
+                                                    <Typography variant="body2">
+                                                        Goal Start Date: {goal.start_date.slice(0,10)}
+                                                    </Typography>
+                                                    <Typography variant="body2">
+                                                        Goal End Date: {goal.end_date.slice(0,10)}
+                                                    </Typography>
+                                                    <Typography variant="body2">
+                                                        Goal Achieved?: {goal.achieved? "Yes" : "No"}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        )
+                                    })
+                                }
                         </DashboardTile>
 
                     </Grid>
