@@ -5,10 +5,8 @@ import { BarChart,Gauge } from '@mui/x-charts';
 import { Button,Box,Container,Grid ,Toolbar, Typography } from '@mui/material';
 import MenuBar from './menu/menu';
 import { DashboardTile } from './dashboardTile/dashboardTile';
+import BarChartTile  from './barChartTile';
 import { AppContext } from '../Contexts';
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 
 export default function Dashboard() {
     const calorieLimit = 2000;
@@ -16,7 +14,8 @@ export default function Dashboard() {
     const minutesofExercise = 30;
     const { user, setUser, 
         metrics, setMetrics, 
-        groups, setGroups, goals, setGoals } = useContext(AppContext);
+        groups, setGroups,
+        goals,setGoals} = useContext(AppContext);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -49,7 +48,10 @@ export default function Dashboard() {
                 }
                 setUser(response.data)
             } catch (error) {
-                console.log(error)
+                if (error?.response?.status === 401){
+                    handleLogout()
+                    return
+                }
             }
             
         }
@@ -67,7 +69,10 @@ export default function Dashboard() {
                 }
                 setMetrics(userMetricsResponse.data)
             } catch (error) {
-                console.log(error)
+                if (error?.response?.status === 401){
+                    handleLogout()
+                    return
+                }
             }
         }
 
@@ -84,19 +89,21 @@ export default function Dashboard() {
                 }
                 setGroups(userGroupsResponse.data)
             } catch (error) {
-                console.log(error)
+                if (error?.response?.status === 401){
+                    handleLogout()
+                    return
+                }
             }
         }
         const getUserGoals = async ()=>{
             try { 
                 const userGoalsResponse = await axios.get("http://localhost:2556/api/v1/goals")
-                if (userGoalsResponse.status !== 200 ){
-                    console.log("error")
-                    return
-                }
                 setGoals(userGoalsResponse.data)
             } catch (error) {
-                console.log(error)
+                if (error?.response?.status === 401){
+                    handleLogout()
+                    return
+                }
             }
             
         }
@@ -136,17 +143,7 @@ export default function Dashboard() {
     }, [metrics])
 
     // display caloric intake as barchart 
-    const getCaloricIntakeBarChart = useCallback(()=> {
-        if (metrics === null){
-            return []
-        }
-        const caloricIntakeData = metrics.filter((metric) => metric.metric_type === "CALORIC_INTAKE")
-        const caloricIntakeThisWeek = caloricIntakeData.filter((metric) => {
-            const todayDateAtStart = new Date().setHours(0, 0, 0);
 
-        })
-        console.log(caloricIntakeThisWeek)
-    })
 
     //get all metrics and filter by metric type
     //makke a bar for each day since the start of the week
@@ -160,30 +157,26 @@ export default function Dashboard() {
                     <MenuBar/>
                     </Box> 
                     <Grid container rowSpacing={6} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <DashboardTile tileTitle={"Todays Caloriific Intake"}>
-                            <p>for {user?.username} today</p>
-                            <Gauge value={(getCaloricIntake/calorieLimit)*100} text={`${getCaloricIntake}Kcal`} />
-                        </DashboardTile>
-                        <DashboardTile tileTitle={"Todays Fluid Intake"}>
+                        <DashboardTile tileTitle={"Calorific Intake"}>
                             <p>for today</p>
-                            <Gauge value={(getFluidIntake/fluidLimit)*100} text={`${getFluidIntake}Ml`} />
+                            <Box>
+                                <Typography variant='h3'>{getCaloricIntake} Kcal</Typography>
+                            </Box>
                         </DashboardTile>
-                        <DashboardTile tileTitle="Exercise Summary">
-                                <BarChart xAxis={[{ scaleType: 'band', data: [new Date(), '02/03', '03/03'] }]} series={[{ data: [50, 40, 30], color: '#8abbf6' }]} height={300}/>
+                        <DashboardTile tileTitle={"Fluid Intake"}>
+                            <p>for today</p>
+                            <Box>
+                                <Typography variant="h3">{getFluidIntake} Ml</Typography>
+                            </Box>
                         </DashboardTile>
                         <DashboardTile tileTitle="Calorific Intake Summary">
-                                <BarChart
-                                xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]}
-                                series={[{ data: [1700, 1950, 2000], color: '#8abbf6'}]}
-                                height={300}
-                                />
+                            <BarChartTile metricType="CALORIC_INTAKE" metrics={metrics}/>
                         </DashboardTile>
                         <DashboardTile tileTitle="Fluid Intake Summary">
-                            <BarChart
-                                xAxis={[{ scaleType: 'band', data: ['01/03', '02/03', '03/03'] }]}
-                                series={[{ data: [1700, 1950, 2000], color: '#8abbf6'}]}
-                                height={300}
-                            />
+                            <BarChartTile metricType="FLUID_INTAKE" metrics={metrics}/>
+                        </DashboardTile>
+                       <DashboardTile tileTitle="Exercise Summary">
+                            <BarChartTile metricType="EXERCISE" metrics={metrics}/>
                         </DashboardTile>
                         <DashboardTile tileTitle="Goals">
                                 <Row xs={1} md={2} className="g-2">

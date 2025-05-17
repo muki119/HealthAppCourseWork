@@ -1,5 +1,4 @@
 import { lazy , useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import Home from './Home/Home'
 import Login from './Login/Login'
