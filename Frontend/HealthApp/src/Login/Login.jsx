@@ -34,7 +34,6 @@ export default function Login() {
                 { username, password }, // Request body
                 { withCredentials: true } // Include cookies (for session auth)
             );
-
             // If login is successful, navigate to dashboard
             if (response.status === 200) {
                 navigate('/dashboard');

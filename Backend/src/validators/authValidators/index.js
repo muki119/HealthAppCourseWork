@@ -121,7 +121,35 @@ const registerValidator = checkSchema({
                 all_lowercase:true // convert to lowercase
             }
         }
-    }
+    },
+    height:{
+        optional:false,
+        notEmpty:{
+            options:{
+                ignore_whitespace:false // whitespace is not allowed
+            }
+        },
+        isFloat:{
+            options:{
+                min:0,
+                max:300
+            }
+        }
+    },
+    weight:{
+        optional:false,
+        notEmpty:{
+            options:{
+                ignore_whitespace:false // whitespace is not allowed
+            }
+        },
+        isFloat:{
+            options:{
+                min:0,
+                max:500
+            }
+        }
+    },
 },["body"])
 
 

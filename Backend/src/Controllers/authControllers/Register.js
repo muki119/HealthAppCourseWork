@@ -17,8 +17,8 @@ const RegisterController = async (req,res,next)=>{
         //numbers/ special characters
         const userData = {forename,surname,username,email,password}
         const successfulRegister = await registerService(userData);
-        if (!successfulRegister){
-            return res.status(400).json({'error':'Email or Username Already Exists.'})
+        if (successfulRegister?.error){
+            return res.status(400).json(successfulRegister)
         }
         res.status(201).json({'message':'Account Successfully Created'})
     }catch(error){
