@@ -189,7 +189,7 @@ export default function Dashboard() {
                                 <Row xs={1} md={2} className="g-2">
 
                                     {goals &&
-                                    goals.filter((goal)=> goal.goal_name != "parse").map((goal, id) => (
+                                    goals.map((goal, id) => (
                                         <Col key={id}>
 
                                         <Card key={id}>
@@ -197,10 +197,11 @@ export default function Dashboard() {
                                             <Card.Body>
                                             
                                             <Card.Title>Goal Name: {goal.goal_name}</Card.Title>
+                                            <Card.Title>Goal Type: {goal.goal_type}</Card.Title>
                                             <Card.Title>Goal Start Date: {goal.start_date.slice(0,10)}</Card.Title>
                                             <Card.Title>Goal End Date: {goal.end_date.slice(0,10)}</Card.Title>
-
-
+                                            <Card.Title>Has this goal been achieved?: {goal.achieved}</Card.Title>
+                                            
                                             </Card.Body>
                                         </Card>
                                         </Col>
