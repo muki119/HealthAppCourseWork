@@ -2,8 +2,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { AppBar  ,MenuItem,Menu,Toolbar , Typography, Box, Button,Avatar, IconButton} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import React ,{useState} from "react"
-export default function MenuBar ({user,pageName}){
+import React ,{useState,useContext} from "react"
+import { AppContext } from '../../Contexts';
+export default function MenuBar ({pageName}){
     const [anchorEl, setAnchorEl] = useState(null);
     const [navMenu, setNavMenu] = useState(null);
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function MenuBar ({user,pageName}){
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const { user } = useContext(AppContext);
     return(
         <>
             <Toolbar position ='static' sx={{ flexWrap: 'wrap', display: 'flex', justifyContent: 'space-between',}}>

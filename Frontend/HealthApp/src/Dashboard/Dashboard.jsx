@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState,useCallback,useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { BarChart,Gauge } from '@mui/x-charts';
 import { Button,Box,Container,Grid ,Toolbar, Typography,Card, CardContent} from '@mui/material';
@@ -12,24 +12,8 @@ export default function Dashboard() {
     const { user, setUser, 
         metrics, setMetrics, 
         groups, setGroups,
-        goals,setGoals} = useContext(AppContext);
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        try {
-            const response = await axios.post("http://localhost:2556/api/v1/logout")
-            if (response.status !== 200){
-                console.log("error")
-                return
-            }
-        } catch (error) {
-            console.log(error)
-        }
-        setUser(null)
-        setMetrics(null)
-        setGroups(null)
-        navigate("/login", { replace: true })
-    }
+        goals,setGoals,
+        handleLogout} = useContext(AppContext);
 
     useEffect(()=>{
         const getuserdata = async ()=>{
@@ -42,8 +26,8 @@ export default function Dashboard() {
                 setUser(response.data)
             } catch (error) {
                 if (error?.response?.status === 401){
-                    handleLogout()
-                    return
+                    return handleLogout()
+
                 }
             }
             
@@ -92,11 +76,13 @@ export default function Dashboard() {
             }
             
         }
+        if (!user) {
+            getuserdata()
+            getUserMetrics()
+            getUserGroups()
+            getUserGoals()
+        }
 
-        getuserdata()
-        getUserMetrics()
-        getUserGroups()
-        getUserGoals()
     },[])
 
     const getCaloricIntake = useMemo(() => {
@@ -186,31 +172,31 @@ export default function Dashboard() {
                                     ))}
                                 </Row> */}
 
-                                {
-                                    goals && goals.map((goal, id) => {
-                                        return (
-                                            <Card variant='outlined' key={id} sx={{ minWidth: 275, marginBottom: 2 }}>
-                                                <CardContent>
-                                                    <Typography variant="h5" component="div">
-                                                        Goal Name: {goal.goal_name}
-                                                    </Typography>
-                                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                                        Goal Type: {goal.goal_type}
-                                                    </Typography>
-                                                    <Typography variant="body2">
-                                                        Goal Start Date: {goal.start_date.slice(0,10)}
-                                                    </Typography>
-                                                    <Typography variant="body2">
-                                                        Goal End Date: {goal.end_date.slice(0,10)}
-                                                    </Typography>
-                                                    <Typography variant="body2">
-                                                        Goal Achieved?: {goal.achieved? "Yes" : "No"}
-                                                    </Typography>
-                                                </CardContent>
-                                            </Card>
-                                        )
-                                    })
-                                }
+                            {
+                                goals && goals.map((goal, id) => {
+                                    return (
+                                        <Card variant='outlined' key={id} sx={{ minWidth: 275, marginBottom: 2 }}>
+                                            <CardContent>
+                                                <Typography variant="h5" component="div">
+                                                    Goal Name: {goal.goal_name}
+                                                </Typography>
+                                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                                    Goal Type: {goal.goal_type}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Goal Start Date: {goal.start_date.slice(0,10)}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Goal End Date: {goal.end_date.slice(0,10)}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Goal Achieved?: {goal.achieved? "Yes" : "No"}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    )
+                                })
+                            }
                         </DashboardTile>
 
                     </Grid>
