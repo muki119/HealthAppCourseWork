@@ -13,10 +13,11 @@ function App() {
   const [user, setUser] = useState(null);
   const [metrics, setMetrics] = useState(null);
   const [groups, setGroups] = useState(null);
+  const [goals, setGoals] = useState(null);
 
   return (
-    <AppContext.Provider value={{ user, setUser, metrics, setMetrics, groups, setGroups }}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppContext.Provider value={{ user, setUser, metrics, setMetrics, groups, setGroups, goals, setGoals }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -25,8 +26,8 @@ function App() {
           <Route path="/goals" element={<Goals />} />
           <Route path='*' element={<Home />} />
         </Routes>
-      </BrowserRouter>
-    </AppContext.Provider>
+      </AppContext.Provider>
+    </BrowserRouter>
   )
 }
 
