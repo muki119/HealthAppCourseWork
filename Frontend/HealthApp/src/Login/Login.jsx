@@ -34,7 +34,6 @@ export default function Login() {
                 { username, password }, // Request body
                 { withCredentials: true } // Include cookies (for session auth)
             );
-
             // If login is successful, navigate to dashboard
             if (response.status === 200) {
                 navigate('/dashboard');
@@ -42,11 +41,7 @@ export default function Login() {
         } catch (err) {
             console.error('Login error:', err);
             // Set error if login fails
-            if (err.response?.data?.error) {
-                setError(err.response.data.error);
-            } else {
-                setError('Invalid username or password');
-            }
+            setError(err.response?.data?.error || 'Login failed. Please try again.');
         }
     };
 
