@@ -1,8 +1,7 @@
 const loginController = require('./Login');
 const registerController = require('./Register');
-const logoutController = require('./Logout');
+const logoutController = require('./logout');
 const getUserController = require('./getUser');
-const checkUsernameController = require('./checkUsername');
 
 // src/Controllers/authControllers/index.js
 
@@ -11,5 +10,5 @@ module.exports = {
     registerController,
     logoutController,
     getUserController,
-    checkUsernameController
+
 };

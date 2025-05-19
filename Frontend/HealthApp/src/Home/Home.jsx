@@ -22,7 +22,7 @@ export default function Home() {
                 </Toolbar>
             </Box>
 
-            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 95}}>
+            <Box sx={{display: 'flex',flexDirection:"column" ,justifyContent: 'center', alignItems: 'center', flex: 95}}>
                 <Typography variant='h2'>Welcome to </Typography>
                 <Typography variant="h2" gutterBottom>
                     UEA Fitness

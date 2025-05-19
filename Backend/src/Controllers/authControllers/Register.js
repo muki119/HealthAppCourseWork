@@ -27,17 +27,4 @@ const RegisterController = async (req,res,next)=>{
     }
 };
 
-const checkUsernameController = async (req, res, next) => {
-    try {
-        const { username } = req.params;
-        const existingUser = await User.findOne({ where: { username } });
-        res.json({ exists: !!existingUser });
-    } catch (error) {
-        next(error);
-    }
-};
-
-module.exports = {
-    RegisterController,
-    checkUsernameController
-};
+module.exports = RegisterController;
