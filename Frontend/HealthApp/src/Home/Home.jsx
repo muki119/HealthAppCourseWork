@@ -23,6 +23,7 @@ export default function Home() {
             </Box>
 
             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 95}}>
+                <Typography variant='h2'>Welcome to </Typography>
                 <Typography variant="h2" gutterBottom>
                     UEA Fitness
                 </Typography>
