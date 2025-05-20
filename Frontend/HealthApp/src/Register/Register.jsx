@@ -165,11 +165,9 @@ function Register() {
         }
       }
 
-      const response = await axios.post('http://localhost:2556/api/v1/register', userData, {
-        withCredentials: true
-      });
+      const response = await axios.post('http://localhost:2556/api/v1/register', userData);
       
-      if (response?.status === 200) {
+      if (response?.status === 201) {
         // Show success message with BMI feedback if applicable
         if (height && weight) {
           const bmi = calculateBMI(weight, height);
