@@ -6,6 +6,7 @@ import Register from './Register/Register'
 import Dashboard from './Dashboard/Dashboard'
 import Goals from './Goals/Goals'
 import GroupView from './Dashboard/Groups/GroupView'
+import Tracking from './Tracking/Tracking'
 import { BrowserRouter, Routes, Route,useNavigate, redirect } from 'react-router-dom'
 import { AppContext } from './Contexts'
 import axios from 'axios'
@@ -47,6 +48,7 @@ function AppContextProvider() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/groups" element={<GroupView />} />
+          <Route path="/tracking" element={<Tracking />} />
           <Route path='*' element={<Home />} />
         </Routes>
       </AppContext.Provider>
