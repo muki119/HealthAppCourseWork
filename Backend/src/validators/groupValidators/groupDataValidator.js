@@ -15,6 +15,7 @@ const createGroupDataValidator = checkSchema({
 
         isAlphanumeric: {
             options: ["en-GB",{ ignore: '_-' }], // include underscore 
+            errorMessage: 'Group name can only contain letters, numbers, underscores, and hyphens'
         }
     },
 });

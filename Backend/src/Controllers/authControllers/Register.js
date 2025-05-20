@@ -9,13 +9,13 @@ const RegisterController = async (req,res,next)=>{
         if (errors.length > 0) {
             return res.status(400).json({"error":errors[0].msg});
         }
-        const {forename,surname,username,email,password} = req.body; // check theyre not empty
+        const {forename,surname,username,email,password,weight,height} = req.body; // check theyre not empty
         //check if usernsame,email,name's are valid 
         // password should have no spaces 
         // minumum 8 characters
         // at least one upper case letter
         //numbers/ special characters
-        const userData = {forename,surname,username,email,password}
+        const userData = {forename,surname,username,email,password,weight,height}
         const successfulRegister = await registerService(userData);
         if (successfulRegister?.error){
             return res.status(400).json(successfulRegister)
