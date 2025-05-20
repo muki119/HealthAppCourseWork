@@ -7,6 +7,7 @@ import { RegisterForm } from './registerForm';
 import { SuccessfulRegisterView } from './successfulRegisterView';
 
 function Register() {
+  document.title = 'Register';
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     username: '',
@@ -165,11 +166,9 @@ function Register() {
         }
       }
 
-      const response = await axios.post('http://localhost:2556/api/v1/register', userData, {
-        withCredentials: true
-      });
-      
-      if (response?.status === 200) {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, userData);
+
+      if (response?.status === 201) {
         // Show success message with BMI feedback if applicable
         if (height && weight) {
           const bmi = calculateBMI(weight, height);

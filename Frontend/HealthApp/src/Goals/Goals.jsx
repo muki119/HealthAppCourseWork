@@ -7,6 +7,7 @@ import { AppContext } from '../Contexts';
 import './Goals.css';
 
 export default function Goals() {
+    document.title = 'Goals';
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('active');
     const [showAddGoal, setShowAddGoal] = useState(false);
@@ -26,7 +27,7 @@ export default function Goals() {
 
     const fetchGoals = async () => {
         try {
-            const response = await axios.get('http://localhost:2556/api/v1/goals', {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/goals`, {
                 withCredentials: true
             });
             if (response.status === 200) {
@@ -55,7 +56,7 @@ export default function Goals() {
         }
 
         try {
-            const response = await axios.post('http://localhost:2556/api/v1/goals', newGoal, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/goals`, newGoal, {
                 withCredentials: true
             });
             if (response.status === 201) {
@@ -87,7 +88,7 @@ export default function Goals() {
 
     const handleComplete = async (goalId) => {
         try {
-            const response = await axios.put(`http://localhost:2556/api/v1/goals/${goalId}`, { achieved: true }, {
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/goals/${goalId}`, { achieved: true }, {
                 withCredentials: true
             });
             if (response.status === 200) {

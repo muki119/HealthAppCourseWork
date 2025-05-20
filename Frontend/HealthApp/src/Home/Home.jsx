@@ -5,6 +5,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 export default function Home() {
     const navigate = useNavigate();
+    document.title = 'UEA Fitness'; // Set the document title for the home page
 
     return(
         <Container maxWidth={false} sx={{display: 'flex', flexDirection: 'column', height: '100vh',padding:0,margin:0,bgcolor:"#f5f5f5"}}>  
