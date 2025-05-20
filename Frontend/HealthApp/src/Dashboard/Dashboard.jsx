@@ -9,6 +9,7 @@ import BarChartTile  from './barchartTile/barChartTile';
 import { AppContext } from '../Contexts';
 
 export default function Dashboard() {
+    document.title = 'Dashboard'; // Set the document title for the dashboard page
     const { user, setUser, 
         metrics, setMetrics, 
         groups, setGroups,

@@ -7,6 +7,7 @@ import { AppContext } from '../Contexts';
 import './Goals.css';
 
 export default function Goals() {
+    document.title = 'Goals';
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('active');
     const [showAddGoal, setShowAddGoal] = useState(false);

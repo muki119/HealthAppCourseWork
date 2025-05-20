@@ -7,6 +7,7 @@ import { RegisterForm } from './registerForm';
 import { SuccessfulRegisterView } from './successfulRegisterView';
 
 function Register() {
+  document.title = 'Register';
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     username: '',

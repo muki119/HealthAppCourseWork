@@ -15,6 +15,7 @@ import {
 
 // Login component definition
 export default function Login() {
+    document.title = 'Login'; // Set the document title for the login page
     // State variables for storing input values and error message
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

@@ -9,6 +9,7 @@ import axios from "axios"
 
 
 export default function GroupView(){
+  document.title = 'Groups'; // Set the document title for the groups page
   const [currentUser, setCurrentUser] = useState(null);
   const [currentPage, setCurrentPage] = useState('groups');
   const [activeGroupId, setActiveGroupId] = useState(null);
