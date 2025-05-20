@@ -14,7 +14,7 @@ const createGroupDataValidator = checkSchema({
         },
 
         isAlphanumeric: {
-            options: ["en-GB",{ ignore: '_' }], // include underscore 
+            options: ["en-GB",{ ignore: '_-' }], // include underscore 
         }
     },
 });

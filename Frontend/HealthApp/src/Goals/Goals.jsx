@@ -11,7 +11,6 @@ export default function Goals() {
     const [activeTab, setActiveTab] = useState('active');
     const [showAddGoal, setShowAddGoal] = useState(false);
     const { user, setUser, metrics, setMetrics, groups, setGroups, goals, setGoals, handleLogout } = useContext(AppContext);
-    console.log(goals)
     const [newGoal, setNewGoal] = useState({
         goal_name: '',
         goal_type: '',

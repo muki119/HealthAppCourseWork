@@ -5,7 +5,6 @@ export function GroupLists({groupList, joinChat, deleteChat}) {
     <div className="group-list">
       {groupList.length === 0 && "No groups created"}
       {groupList.map(group => {
-        console.log(group)
         return <GroupItem {...group} groupId={group.group_id} key={group.group_id} 
         joinChat={joinChat}
         deleteChat={deleteChat} />
