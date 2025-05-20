@@ -25,7 +25,7 @@ export default function Login() {
     useEffect(() => {
         async function checkLoginStatus() {
             try {
-                const response = await axios.get('http://localhost:2556/api/v1/login', { withCredentials: true });
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/login`, { withCredentials: true });
                 if (response.status === 200) {
                     navigate('/dashboard'); // Redirect to dashboard if logged in
                 }
@@ -49,7 +49,7 @@ export default function Login() {
         try {
             // Send POST request to backend login endpoint with credentials
             const response = await axios.post(
-                'http://localhost:2556/api/v1/login', // Backend login route
+                `${import.meta.env.VITE_API_URL}/login`, // Backend login route
                 { username, password }, // Request body
                 { withCredentials: true } // Include cookies (for session auth)
             );

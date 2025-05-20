@@ -166,8 +166,8 @@ function Register() {
         }
       }
 
-      const response = await axios.post('http://localhost:2556/api/v1/register', userData);
-      
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, userData);
+
       if (response?.status === 201) {
         // Show success message with BMI feedback if applicable
         if (height && weight) {

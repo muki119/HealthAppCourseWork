@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../../Contexts";
 
-export function NewGroupChat({groupAdded}) {
+export function NewGroupChat() {
     const [groupName, setGroupName] = useState("")
     const {logoutHandler,groups,setGroups} = useContext(AppContext)
     const [error, setError] = useState(null)
@@ -12,7 +12,7 @@ export function NewGroupChat({groupAdded}) {
         e.preventDefault()
         if(groupName === "") return
         try {
-          const newGroupResponse = await axios.post('http://localhost:2556/api/v1/groups', {name: groupName,})
+          const newGroupResponse = await axios.post(`${import.meta.env.VITE_API_URL}/groups`, {name: groupName,})
           const newGroup = {group_id:newGroupResponse.data.id,group:newGroupResponse.data}
           setGroups((currentGroupList) => {
             return [

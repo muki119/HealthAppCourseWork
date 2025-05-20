@@ -22,7 +22,7 @@ export default function GroupView(){
 
       const getGroups = async () => {
         try {
-          const response = await axios.get('http://localhost:2556/api/v1/groups', {}, { withCredentials: true });
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/groups`, {}, { withCredentials: true });
           setGroups(response.data);
         } catch (error) {
           if (error?.response?.status === 401) {
@@ -72,7 +72,7 @@ export default function GroupView(){
 
   const leaveChat = async (activeGroupId) => {
     try {
-      const deleteResponse = await axios.delete(`http://localhost:2556/api/v1/groups/${activeGroupId}/leave`);
+      const deleteResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/groups/${activeGroupId}/leave`);
       if (deleteResponse.status === 200) {
         setGroups(prevGroupList => prevGroupList.filter(group => group.group_id !== activeGroupId));
         setActiveGroupId(null);
