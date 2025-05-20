@@ -1,25 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Input,Box,Typography,Container, Stack ,Link} from '@mui/material';
 import './Register.css';
+import { RegisterForm } from './registerForm';
+import { SuccessfulRegisterView } from './successfulRegisterView';
 
 function Register() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [forename, setForename] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
-  const [idealWeight, setIdealWeight] = useState('');
+  const [userData, setUserData] = useState({
+    username: '',
+    password: '',
+    forename: '',
+    surname: '',
+    email: '',
+    date_of_birth: '',
+    height: '',
+    weight: '',
+    idealWeight: ''
+  });
+
+  const { username, password, forename, surname, email, height, weight, idealWeight } = userData;
   const [error, setError] = useState('');
   const [healthFeedback, setHealthFeedback] = useState('');
+  const [successfulRegister , setSuccessfulRegister] = useState(false);
 
-  // Valid ranges
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  }
+
+
+  // Valid ranges   
   const VALID_RANGES = {
-    height: { min: 100, max: 250 }, // cm
-    weight: { min: 30, max: 300 }, // kg
+    height: { min: 100, max: 300 }, // cm
+    weight: { min: 30, max: 700 }, // kg
     idealWeight: { min: 30, max: 300 } // kg
   };
 
@@ -120,32 +138,13 @@ function Register() {
     }
 
     try {
-      // Check username uniqueness
-      try {
-        const checkUsername = await axios.get(`http://localhost:2556/api/v1/check-username/${username}`, {
-          withCredentials: true
-        });
-        
-        if (checkUsername.data.exists) {
-          setError('Username already exists. Please choose a different username.');
-          return;
-        }
-      } catch (checkError) {
-        console.error('Error checking username:', checkError);
-        // Continue with registration even if username check fails
-        // The backend will still validate the username
-      }
 
-      const userData = {
-        username: username,
-        password: password,
-        forename: forename,
-        surname: surname,
-        email: email,
+      setUserData(prevData => ({
+        ...prevData,
         height: height ? parseFloat(height) : null,
         weight: weight ? parseFloat(weight) : null,
         idealWeight: idealWeight ? parseFloat(idealWeight) : null
-      };
+      }));
 
       // If height and weight are provided, calculate BMI and create initial goal
       if (height && weight) {
@@ -170,16 +169,17 @@ function Register() {
         withCredentials: true
       });
       
-      if (response.data) {
+      if (response?.status === 200) {
         // Show success message with BMI feedback if applicable
         if (height && weight) {
           const bmi = calculateBMI(weight, height);
           const bmiFeedback = getBMIFeedback(bmi);
           if (bmiFeedback.category !== 'healthy') {
-            setHealthFeedback(`Registration successful! We've created a weight goal for you based on your BMI. You can view it on your goals page.`);
+            setHealthFeedback(`We've created a weight goal for you based on your BMI. You can view it on your goals page.`);
           } else {
             setHealthFeedback('Registration successful!');
           }
+          setSuccessfulRegister(true);
         } else {
           setHealthFeedback('Registration successful!');
         }
@@ -199,107 +199,15 @@ function Register() {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-box">
-        <h2>Register</h2>
-        
-        {error && <div className="error">{error}</div>}
-        {healthFeedback && <div className="health-feedback">{healthFeedback}</div>}
-
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Username *</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              placeholder="3-20 characters, letters and numbers only"
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Password *</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Minimum 8 characters"
-            />
-          </div>
-
-          <div className="input-group">
-            <label>First Name *</label>
-            <input
-              type="text"
-              value={forename}
-              onChange={(e) => setForename(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Last Name *</label>
-            <input
-              type="text"
-              value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Email *</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="example@email.com"
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Height (cm)</label>
-            <input
-              type="number"
-              value={height}
-              onChange={(e) => setHeight(e.target.value)}
-              placeholder={`${VALID_RANGES.height.min}-${VALID_RANGES.height.max} cm`}
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Current Weight (kg)</label>
-            <input
-              type="number"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              placeholder={`${VALID_RANGES.weight.min}-${VALID_RANGES.weight.max} kg`}
-            />
-          </div>
-
-          <div className="input-group">
-            <label>Ideal Weight (kg)</label>
-            <input
-              type="number"
-              value={idealWeight}
-              onChange={(e) => setIdealWeight(e.target.value)}
-              placeholder={`${VALID_RANGES.idealWeight.min}-${VALID_RANGES.idealWeight.max} kg`}
-            />
-          </div>
-
-          <button type="submit" className="submit-btn">
-            Register
-          </button>
-        </form>
-
-        <p className="login-text">
-          Already have an account? <a href="/login">Login here</a>
-        </p>
-      </div>
-    </div>
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f5f5f5' }}>
+        <Container  maxWidth={"sm"} sx={{ backgroundColor: '#fff', borderRadius: 2, boxShadow: 3 }}>
+          <Box sx={{ padding: 2 ,}}>
+            {!successfulRegister?<RegisterForm {...{VALID_RANGES,userData,handleChange,handleSubmit,error}}/>:<SuccessfulRegisterView {...{navigate,healthFeedback}}/>}
+          </Box>
+        </Container>
+      </Box>
+    </>
   );
 }
 
