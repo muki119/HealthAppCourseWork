@@ -8,6 +8,7 @@ export default function MenuBar ({pageName}){
     const [anchorEl, setAnchorEl] = useState(null);
     const [navMenu, setNavMenu] = useState(null);
     const navigate = useNavigate();
+    const {handleLogout} = useContext(AppContext);
     const open = Boolean(anchorEl)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -21,7 +22,7 @@ export default function MenuBar ({pageName}){
             <Toolbar position ='static' sx={{ flexWrap: 'wrap', display: 'flex', justifyContent: 'space-between',}}>
                 <Box sx={{flexGrow: 10, display:{ xs: 'none', sm: 'flex' }, alignItems: 'center',justifyContent:'center'}}>
                     <Typography variant="h5" component="div">
-                        Dashboard
+                        {pageName}
                     </Typography>
                 </Box>
                 <Box sx={{flexGrow: 80, display:{ xs: 'none', sm: 'flex' }, alignItems: 'center',justifyContent:'center'}}>
@@ -50,7 +51,7 @@ export default function MenuBar ({pageName}){
 
                 <Menu id="basic-menu2"anchorEl={anchorEl}open={open} onClose={handleClose} >
                     <MenuItem divider>
-                        <Typography  component="div" sx={{ flexGrow: 1 }}>
+                        <Typography  component="div" sx={{ flexGrow: 1 ,textTransform: 'capitalize'}}>
                             {user?.forename} {user?.surname}
                         </Typography>
                     </MenuItem>
@@ -60,7 +61,7 @@ export default function MenuBar ({pageName}){
                         </Typography>
                     </MenuItem>
 
-                    <MenuItem onClick={()=> navigate("/login", { replace: true })}>Logout</MenuItem>
+                    <MenuItem onClick={()=>handleLogout()}>Logout</MenuItem>
                 </Menu>
             </Toolbar>
         </>

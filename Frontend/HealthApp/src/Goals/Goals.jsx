@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Box, Button, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import MenuBar from '../Dashboard/menu/menu';
+import { AppContext } from '../Contexts';
 import './Goals.css';
 
 export default function Goals() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('active');
     const [showAddGoal, setShowAddGoal] = useState(false);
-    const [goals, setGoals] = useState([]);
+    const { user, setUser, metrics, setMetrics, groups, setGroups, goals, setGoals, handleLogout } = useContext(AppContext);
+    console.log(goals)
     const [newGoal, setNewGoal] = useState({
         goal_name: '',
         goal_type: '',
@@ -32,7 +34,10 @@ export default function Goals() {
                 setGoals(response.data);
             }
         } catch (error) {
-            console.error('Error fetching goals:', error);
+                if (error?.response?.status === 401){
+                    return handleLogout()
+
+                }
         }
     };
 
@@ -66,6 +71,9 @@ export default function Goals() {
                 fetchGoals();
             }
         } catch (error) {
+            if (error?.response?.status === 401) {
+                return handleLogout();
+            }
             setError(error.response?.data?.message || 'Failed to create goal');
         }
     };
@@ -80,14 +88,16 @@ export default function Goals() {
 
     const handleComplete = async (goalId) => {
         try {
-            const response = await axios.put(`http://localhost:2556/api/v1/goals/${goalId}/complete`, {}, {
+            const response = await axios.put(`http://localhost:2556/api/v1/goals/${goalId}`, { achieved: true }, {
                 withCredentials: true
             });
             if (response.status === 200) {
                 fetchGoals();
             }
         } catch (error) {
-            console.error('Error completing goal:', error);
+            if (error?.response?.status === 401) {
+                return handleLogout();
+            }
         }
     };
 
@@ -97,7 +107,7 @@ export default function Goals() {
 
     return (
         <div className="goals-page">
-            <MenuBar />
+            <MenuBar pageName={"Goals"} />
             <div className="goals-container">
                 <h1>Goals</h1>
                 <div className="tabs">

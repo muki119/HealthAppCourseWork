@@ -72,7 +72,6 @@ export default function Dashboard() {
                     return handleLogout()
                 }
             }
-            
         }
         if (!user) {
             getuserdata()
@@ -82,6 +81,7 @@ export default function Dashboard() {
         }
 
     },[])
+
 
     const getCaloricIntake = useMemo(() => {
         // get all metrics 
