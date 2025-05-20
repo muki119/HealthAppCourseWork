@@ -1,5 +1,4 @@
 export function GroupItem({group,groupId,joinChat,deleteChat}) {
-    console.log(group)
     return (
         <div className="group-card">
             <div className="group-info">

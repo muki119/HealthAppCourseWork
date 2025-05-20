@@ -13,7 +13,6 @@ export function ChatApp({groupId, groupName, messages, onSendMessage, onBack, cu
         content: text,
         dateSent: new Date().toISOString()
       };
-      console.log('Sending message:', text);
       onSendMessage(groupId, message);
       setText('');
     }
@@ -22,7 +21,7 @@ export function ChatApp({groupId, groupName, messages, onSendMessage, onBack, cu
     return (
     <div className="group-list">
     <button onClick={onBack}>← Back to Groups</button>
-    <button onClick={onLeave(groupId, currentUser)}>Leave</button>
+    <button onClick={()=>onLeave(groupId, currentUser)}>Leave</button>
     <h2>Group Chat: {groupName}</h2>
     <div className='chatBox'>
         {messages.map((info) => (

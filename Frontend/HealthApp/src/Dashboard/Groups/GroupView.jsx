@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from "react"
+import { useEffect, useState,useContext,useCallback,useMemo } from "react"
 import "./GroupView.css"
 import { NewGroupChat } from "./NewGroupChat"
 import { GroupLists } from "./GroupList"
@@ -23,7 +23,6 @@ export default function GroupView(){
         try {
           const response = await axios.get('http://localhost:2556/api/v1/groups', {}, { withCredentials: true });
           setGroups(response.data);
-          console.log(response.data)
         } catch (error) {
           if (error?.response?.status === 401) {
             return logoutHandler();
@@ -47,14 +46,11 @@ export default function GroupView(){
   // }, [groupMessage]);
 
 
-  function addGroup(title, desciption){
+  function addGroup(newGroup){
     setGroupList((currentGroupList) => {
       return [
       ...currentGroupList, 
-      {id: crypto.randomUUID(), title, 
-        desciption, 
-        completed: 
-        false},
+      newGroup
       ]
     })
   }
@@ -65,9 +61,7 @@ export default function GroupView(){
   }
   
   function deleteChat(id) {
-    setGroupList(currentGroup => {
-      return currentGroup.filter(group => group.id !== id)
-    })
+    leaveChat(id);
   }
 
   const goBack = () => {
@@ -75,12 +69,11 @@ export default function GroupView(){
     setActiveGroupId(null);
   }
 
-  const leaveChat = async (activeGroupId, currentUser) => {
-
+  const leaveChat = async (activeGroupId) => {
     try {
       const deleteResponse = await axios.delete(`http://localhost:2556/api/v1/groups/${activeGroupId}/leave`);
       if (deleteResponse.status === 200) {
-        setGroupList(prevGroupList => prevGroupList.filter(group => group.id !== activeGroupId));
+        setGroups(prevGroupList => prevGroupList.filter(group => group.group_id !== activeGroupId));
         setActiveGroupId(null);
         setCurrentPage('groups');
       }
@@ -98,7 +91,7 @@ export default function GroupView(){
       [id]: [...(prevMessage[id] || []), message]
     }));
   };
-  const activeGroup = groups.find(g => g.id === activeGroupId);
+  const activeGroup = useMemo(() => groups.find(g => g.group_id === activeGroupId), [groups, activeGroupId]);
   const activeMessages = groupMessage[activeGroupId] || [];
 
   return (
@@ -116,7 +109,7 @@ export default function GroupView(){
       ) : (
         <ChatApp 
           groupId={activeGroupId}
-          groupName={activeGroup?.title}
+          groupName={activeGroup?.group.name}
           messages={activeMessages}
           onSendMessage={sendMessage}
           onBack={goBack}

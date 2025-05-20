@@ -179,15 +179,13 @@ function Register() {
           } else {
             setHealthFeedback('Registration successful!');
           }
-          setSuccessfulRegister(true);
+
         } else {
           setHealthFeedback('Registration successful!');
         }
         
         // Navigate to login after a short delay to show the success message
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        setSuccessfulRegister(true);
       }
     } catch (err) {
       if (err.response?.data?.error) {
