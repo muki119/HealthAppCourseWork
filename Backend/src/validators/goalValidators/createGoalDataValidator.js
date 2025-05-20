@@ -50,7 +50,7 @@ const createGoalDataValidator = checkSchema({
         notEmpty: true,
         toDate: true,
         isISO8601: true,
-
+        // check if end_date is after start_date
     }
 }, ["body"]);
 

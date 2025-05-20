@@ -1,7 +1,6 @@
 const {authServices} = require("../../Services");
 const {registerService} = authServices;
 const { validationResult } = require('express-validator');
-const { User } = require('../../models');
 
 //Where the and outputs are handled
 const RegisterController = async (req,res,next)=>{

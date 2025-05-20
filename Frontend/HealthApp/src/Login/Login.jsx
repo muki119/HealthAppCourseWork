@@ -1,5 +1,5 @@
 // Import necessary hooks and modules
-import React, { useState } from 'react'; // React core and useState for managing form state
+import React, { useState,useEffect } from 'react'; // React core and useState for managing form state
 import { useNavigate, Link } from 'react-router-dom'; // To programmatically navigate after login
 import axios from 'axios'; // For making HTTP requests
 
@@ -19,8 +19,26 @@ export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
     const navigate = useNavigate(); // Hook to redirect user on successful login
+
+    useEffect(() => {
+        async function checkLoginStatus() {
+            try {
+                const response = await axios.get('http://localhost:2556/api/v1/login', { withCredentials: true });
+                if (response.status === 200) {
+                    navigate('/dashboard'); // Redirect to dashboard if logged in
+                }
+            } catch (err) {
+                if (err.response?.status !== 401) {
+                    //pass
+                }else if (err.response?.status === 500) {
+                    setError(err.response?.data?.error || 'Server error. Please try again later.');
+                }
+            }
+        }
+        checkLoginStatus(); // Call the function to check login status
+    },[])
+
 
     // Function to handle login form submission
     const handleLogin = async (e) => {

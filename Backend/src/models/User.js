@@ -36,6 +36,16 @@ const User = sequelize.define('user', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
+    height:{
+        type: DataTypes.FLOAT,
+        defaultValue: null,
+        allowNull: true
+    },
+    weight:{
+        type: DataTypes.FLOAT,
+        defaultValue: null,
+        allowNull: true
+    },
     last_online:{
         type: DataTypes.DATE,
         defaultValue: null,
